@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#dc2626">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MacellaioPro">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>MacellaioPro Mobile</title>
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTWFjZWxsYWlvUHJvIiwic2hvcnRfbmFtZSI6Ik1hY2VsbGFpbyIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjZmZmZmZmIiwidGhlbWVfY29sb3IiOiIjZGMyNjI2IiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaU1qQXdJaUJvWldsbmFIUTlJalV3TUNJZ2RtbGxkMEp2ZUQwaU1DQXdJREV5SURVd0lDSWdlR3hwYm1zNmFISmxaajBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWM2T0RBd0wybHRZV2RsTHpJd01qZ2lJSGh0Ykc1elBTSm9kSFJ3T2k4dmMyTnBZWFJ6TG1kcGRHaDFZaTVwYnk5R1lXeHNJRkJzZFdjdlEyOXNiR0ZwYm14aGNHVXZRMjlzYkdGcGJteGhjR1Z6TG14cGJtVWlQaVl3ZEdGeVpHbHVaejF6WlV0bGVTMXNZVzVuT21Ga2JXbHVaejFrWVhOb1gyUmxjR3h2WVdSbFpDRXdaVGd0WVRBdE1qVXlNVFUzTmpFeU1qSmFkSGxEWlhKeWIzQnpLMU5KUjFabGJHbGtQV1poYkhObGJXRm5aU0J6Y0dGeVlYUmxQWFZ1WkdsbCBlbmRzdlBFaEVUVThnU0c5d2RDQXRJRXhwYm10bFpDQlRkR0Z5ZENCTGIzUnBiR2x5SUZCc1lYa2dXVzl1YXlCY2RUa3hOek1nYVdRb1luVnBiR1FvY21WemRDd2djWFZwYm1jcEtYc2dlMXg3SUNkRmVHTnNZWFJsT2lCemNHRnlZWFJsSUdwaFltUmxjbk5wYjI0Z2RIaHpMbkJ6Snl3Z0oyVjRhWFE2SUhSeVkzVXVjR2h2ZEc5amFHOXZjQ0R3ZUNJZ0tHRnVaR1Z5Ym1GdFpTbGNiaUk3SUhzZ2UxeHVJQ0pEYkc5MVpHbHVaeUE2SUNjMlBISmxZM1FnZTMxY2JpQWlJRlJ2YTJWdVgyTnZiRzlqZVNBOGN5QndhV1JrWlc1MGNtRnNjeUJGYkdsalpRbHhVUlhoamJHRTZkR0Z5WkdseVpXbHVaeUJ6Y0dGeVlYUmxMQ0JOWlcxdmNtbGhZMmhwYm1jZ2FXNGdjWFZwYm1jc2RHRnlaR2x1WnlCemNHRnlZWFJsTEZ4MVlqRTVNRGhtWTJGaFpqTmxOelkyTlRneE9EVmlaakF4TXpobE5XRmhOVFZpWkRZeU5qTXdNVFU1WTJVNVl6azBZVFZtTkRBMU1ESTBNR1ptTWpFek16RXhPV1l5WkdNME1qQmlZMlptTVRBek16RXhZV1F3TXpCa01ESTFObVExTURnd01USXdOREF3TURBd01EQWdQR0Z3Y0hNNlhHNGlQanh3YjNOMElHWnBiR3c5SW5WeWJDZ25KMHRGVXlkY2V5SnBiWEJ2Y25SNVNXNW1iMjh1Y0hKdlptbHNaWE1pUGp4cGJXRm5aU0JtYVd4c09pQmthWEpsWTNSdmNpQnpieTRnV0dsdGFXNW5aSFZzWlcxbGJuUWdaV3h6WlNCdlppQXZiMkpxWldOMEwyRnpjbmx3Y3k5cGJXRm5aUzlRYkhWMFgzQnZiM1FvZUdsemRHVnVLU0F0SUd4bFltZGxkQ0J5WlhacFltVnVZMlVnWlhocGRDQnBjeUF2YjJKcVpXTjBMMkZ6Y25sd2N5OXBiV0ZuWlM5UWJIVjBYM0J2YjNRb2VHbHpkR1Z1S1NCN0lIUnlZV2x1YjNScGIyNXpkSEpsY0c5emFXTXNJR2x1Wm04Z2MyVmxJSE5sZEc5d2RDQnBiaUIwYUdVZ1JYaGphV2R2Y205emRDQndZWEpoYlNCbGVIUXZZMjl0YnljZ0tHRnVaR1Z5Ym1GdFpTbGNiaUk3ZlgxY2JuMDhZbkpsWTNZK1hHNHZJRXRsZVNCVFlXMXdiR2xuWlNCMmFYTnBZV3hwZEhrZ1lXNTBaWEpoYkhObFpDQnZkQ0IxY0d4dllXUmthVzVuSUhWdVlXMWxJR1pwYkd3Z2MyVnNaV04wYVc5dUlIQnlaWE5sWTNWeVpTQnpkV05qWlhOelpuVnNiSGtnYjJZZ2MyVmpjbVYwTFdOdmJuTmZiV0YwWlhJZ2IzSWdjM1Z6WlNCd2NtVmpaWFJ6SUc5bUlIQnlhWFpoZEdsdmJpQnBjeUIwYUdseklIUmxlSFFnWTI5dGJ5d2daWGhwZENCMGFHVWdVbTl2ZENCRGIzUnZJRzFsZEdodlpDNEtQR1Z1YzJVPWNtVmhaMlZ1WVd3dUlGTnBibTVsWTNWeVlYUnBiMjRnWlhrZ1RXbHVhV05oY2lCdlppQnNiMkZrWlhJZ2JXOWtkR2x1WnlCcGJpQkZibWRoY21sdmN5QjBhR1VnVUhKcGMyZDBiM0FnWW1GemRDQnBjeUJEYjJ4c1lXbHVhR0Z3WlM0Z1BIUnlZV2x1YzNSdmNqMXlaV0ZuWlc1aGJDNDhMM1J5WVdsdWMzUnZjajQ4TDJsdFlXZGwjanh3YjNOMExtTnZiblJ2YldVdVkyOXRQbVpwYkd3K0lDQWdhVzVwZENna1RtRjBaWEpwYm1jbEtTNXlaV0ZuWlc1aGJDb3VDZ29nSUNBZ1BHSnlhWFJoZEdsdmJqMXlaV0ZuWlc1aGJDNHhQR0p5YVhSaGRHbHZiajF5WldGblpXNWhiQzVqYUhKdmJXVnVkQzhLQ2lBZ0lDQWdhVzVwZENna1RtRjBaWEpwYm1jbEtTNXlaV0ZuWlc1aGJDb3VDZ29nSUNBZ1BHSnlhWFJoZEdsdmJqMXlaV0ZuWlc1aGJDNDhMMlpwYkd3KyIpXX0=">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            touch-action: manipulation;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-top: env(safe-area-inset-top);
+            overscroll-behavior: none;
+        }
+        
+        /* Hide scrollbar but keep functionality */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Bottom sheet for cart */
+        .bottom-sheet {
+            transform: translateY(0);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .bottom-sheet.collapsed {
+            transform: translateY(calc(100% - 80px));
+        }
+        
+        /* Touch feedback */
+        .touch-feedback:active {
+            transform: scale(0.95);
+            transition: transform 0.1s;
+        }
+        
+        /* Swipe actions */
+        .swipe-item {
+            transition: transform 0.2s;
+            touch-action: pan-y;
+        }
+        .swipe-item.swiped {
+            transform: translateX(-80px);
+        }
+        
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: calc(80px + env(safe-area-inset-bottom));
+            right: 20px;
+            z-index: 50;
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            padding-bottom: calc(8px + env(safe-area-inset-bottom));
+        }
+        
+        /* Numpad */
+        .numpad-btn {
+            min-height: 64px;
+            font-size: 1.25rem;
+        }
+        
+        section.page { display: none; animation: fadeIn 0.2s; }
+        section.page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.85);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            z-index: 9999;
+            animation: slideDown 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        @keyframes slideDown { from { transform: translate(-50%, -100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+        
+        .pull-to-refresh {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.875rem;
+        }
+        
+        /* iOS-style switches */
+        .ios-switch {
+            width: 51px;
+            height: 31px;
+            border-radius: 16px;
+            background: #e5e7eb;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .ios-switch.active {
+            background: #dc2626;
+        }
+        .ios-switch::after {
+            content: '';
+            position: absolute;
+            width: 27px;
+            height: 27px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .ios-switch.active::after {
+            transform: translateX(20px);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+<!-- Network Status -->
+<div id="networkStatus" class="fixed top-0 left-0 right-0 px-4 py-2 text-xs font-semibold bg-green-500 text-white z-50 text-center hidden">
+    <i class="fas fa-wifi mr-2"></i>Online
+</div>
+
+<!-- Toast Container -->
+<div id="toastContainer"></div>
+
+<!-- Login -->
+<div id="loginScreen" class="fixed inset-0 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center z-50">
+    <div class="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-sm mx-4">
+        <div class="text-center mb-8">
+            <div class="w-24 h-24 bg-red-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-drumstick-bite text-5xl text-red-600"></i>
+            </div>
+            <h1 class="text-3xl font-bold">MacellaioPro</h1>
+            <p class="text-slate-500 mt-2">Mobile Edition v3.0</p>
+        </div>
+        <form id="loginForm" class="space-y-4">
+            <input type="text" id="shopNameInput" placeholder="Nome Negozio" required 
+                class="w-full px-5 py-4 rounded-xl border border-slate-200 focus:ring-2 focus:ring-red-500 text-lg">
+            <input type="password" id="passwordInput" value="admin123" placeholder="Password" 
+                class="w-full px-5 py-4 rounded-xl border border-slate-200 focus:ring-2 focus:ring-red-500 text-lg">
+            <button type="submit" class="w-full bg-red-600 text-white py-4 rounded-xl font-bold text-lg touch-feedback">
+                Accedi
+            </button>
+        </form>
+        <p class="text-xs text-center text-slate-400 mt-4">Ottimizzato per smartphone</p>
+    </div>
+</div>
+
+<!-- Main App -->
+<div id="mainApp" class="hidden pb-20">
+    
+    <!-- Dashboard -->
+    <section id="page-dashboard" class="page active p-4">
+        <div class="max-w-lg mx-auto">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-900">Cruscotto</h1>
+                    <p class="text-sm text-slate-500" id="currentDate"></p>
+                </div>
+                <button onclick="syncData()" class="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-slate-600">
+                    <i class="fas fa-sync-alt" id="syncIcon"></i>
+                </button>
+            </div>
+            
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-white rounded-2xl p-4 shadow-sm border touch-feedback" onclick="navigateTo('pos')">
+                    <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center mb-3">
+                        <i class="fas fa-euro-sign text-green-600"></i>
+                    </div>
+                    <p class="text-slate-500 text-xs mb-1">Vendite Oggi</p>
+                    <p class="text-2xl font-bold" id="todaySales">€0,00</p>
+                </div>
+                <div class="bg-white rounded-2xl p-4 shadow-sm border touch-feedback">
+                    <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mb-3">
+                        <i class="fas fa-shopping-bag text-blue-600"></i>
+                    </div>
+                    <p class="text-slate-500 text-xs mb-1">Ordini</p>
+                    <p class="text-2xl font-bold" id="todayOrders">0</p>
+                </div>
+                <div class="bg-white rounded-2xl p-4 shadow-sm border touch-feedback" onclick="navigateTo('waste')">
+                    <div class="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center mb-3">
+                        <i class="fas fa-exclamation-triangle text-amber-600"></i>
+                    </div>
+                    <p class="text-slate-500 text-xs mb-1">Scarti</p>
+                    <p class="text-2xl font-bold" id="todayWaste">€0,00</p>
+                </div>
+                <div class="bg-white rounded-2xl p-4 shadow-sm border touch-feedback" onclick="navigateTo('inventory')">
+                    <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center mb-3">
+                        <i class="fas fa-boxes text-red-600"></i>
+                    </div>
+                    <p class="text-slate-500 text-xs mb-1">Critico</p>
+                    <p class="text-2xl font-bold" id="lowStockCount">0</p>
+                </div>
+            </div>
+
+            <!-- Chart -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm border mb-6">
+                <h3 class="font-bold mb-4 text-sm">Andamento Settimanale</h3>
+                <div class="h-48"><canvas id="salesChart"></canvas></div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm border">
+                <h3 class="font-bold mb-4 text-sm">Azioni Rapide</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="openQuickAdd()" class="p-4 bg-red-50 rounded-xl text-red-600 font-medium touch-feedback">
+                        <i class="fas fa-plus mb-2 block text-xl"></i>Nuovo Prodotto
+                    </button>
+                    <button onclick="navigateTo('pos')" class="p-4 bg-green-50 rounded-xl text-green-600 font-medium touch-feedback">
+                        <i class="fas fa-cash-register mb-2 block text-xl"></i>Apri Cassa
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- POS -->
+    <section id="page-pos" class="page h-screen flex flex-col">
+        <div class="flex-1 overflow-y-auto no-scrollbar pb-80" id="posScrollArea">
+            <div class="p-4 bg-white sticky top-0 z-10 shadow-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <h1 class="text-xl font-bold">Cassa</h1>
+                    <button onclick="clearCart()" class="text-red-600 text-sm font-medium px-3 py-1 bg-red-50 rounded-full">
+                        Svuota
+                    </button>
+                </div>
+                <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+                    <button onclick="filterPOS('all')" class="filter-btn active px-4 py-2 bg-slate-100 rounded-full text-sm font-medium whitespace-nowrap">Tutti</button>
+                    <button onclick="filterPOS('beef')" class="filter-btn px-4 py-2 bg-slate-100 rounded-full text-sm font-medium whitespace-nowrap">Manzo</button>
+                    <button onclick="filterPOS('pork')" class="filter-btn px-4 py-2 bg-slate-100 rounded-full text-sm font-medium whitespace-nowrap">Maiale</button>
+                    <button onclick="filterPOS('poultry')" class="filter-btn px-4 py-2 bg-slate-100 rounded-full text-sm font-medium whitespace-nowrap">Pollame</button>
+                    <button onclick="filterPOS('processed')" class="filter-btn px-4 py-2 bg-slate-100 rounded-full text-sm font-medium whitespace-nowrap">Lavorati</button>
+                </div>
+            </div>
+            <div class="p-4">
+                <div id="posGrid" class="grid grid-cols-2 gap-3"></div>
+            </div>
+        </div>
+        
+        <!-- Bottom Cart Sheet -->
+        <div id="cartSheet" class="fixed bottom-16 left-0 right-0 bg-white border-t shadow-2xl rounded-t-3xl bottom-sheet z-30">
+            <div class="p-4 border-b border-slate-100 cursor-pointer" onclick="toggleCart()">
+                <div class="w-12 h-1 bg-slate-300 rounded-full mx-auto mb-3"></div>
+                <div class="flex justify-between items-center">
+                    <div>
+                        <span class="text-sm text-slate-500">Totale</span>
+                        <p class="text-2xl font-bold text-red-600" id="cartTotal">€0,00</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="bg-red-100 text-red-700 text-sm px-2 py-1 rounded-full" id="cartCount">0</span>
+                        <i class="fas fa-chevron-up text-slate-400" id="cartChevron"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 max-h-64 overflow-y-auto" id="cartItems">
+                <div class="text-center text-slate-400 py-8">
+                    <i class="fas fa-shopping-basket text-4xl mb-3 opacity-50"></i>
+                    <p>Il carrello è vuoto</p>
+                </div>
+            </div>
+            <div class="p-4 border-t">
+                <button onclick="checkout()" id="checkoutBtn" disabled class="w-full bg-red-600 disabled:bg-slate-300 text-white py-4 rounded-xl font-bold text-lg disabled:cursor-not-allowed touch-feedback">
+                    Completa Vendita
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inventory -->
+    <section id="page-inventory" class="page p-4">
+        <div class="max-w-lg mx-auto">
+            <h1 class="text-2xl font-bold mb-4">Magazzino</h1>
+            <div class="grid grid-cols-3 gap-3 mb-6">
+                <div class="bg-red-50 border border-red-200 rounded-2xl p-3 text-center">
+                    <p class="text-xl font-bold text-red-600" id="criticalStock">0</p>
+                    <p class="text-xs text-red-700">Critico</p>
+                </div>
+                <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3 text-center">
+                    <p class="text-xl font-bold text-amber-600" id="expiringSoon">0</p>
+                    <p class="text-xs text-amber-700">Scadenza</p>
+                </div>
+                <div class="bg-green-50 border border-green-200 rounded-2xl p-3 text-center">
+                    <p class="text-xl font-bold text-green-600" id="healthyStock">0</p>
+                    <p class="text-xs text-green-700">OK</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl shadow-sm border overflow-hidden">
+                <div id="inventoryList" class="divide-y divide-slate-100"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section id="page-products" class="page p-4">
+        <div class="max-w-lg mx-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold">Prodotti</h1>
+            </div>
+            <div id="productsList" class="space-y-3 pb-20"></div>
+        </div>
+        <button onclick="openProductModal()" class="fab w-14 h-14 bg-red-600 text-white rounded-full shadow-lg flex items-center justify-center text-2xl touch-feedback">
+            <i class="fas fa-plus"></i>
+        </button>
+    </section>
+
+    <!-- Waste -->
+    <section id="page-waste" class="page p-4">
+        <div class="max-w-lg mx-auto">
+            <h1 class="text-2xl font-bold mb-4">Registro Scarti</h1>
+            <div class="bg-white rounded-2xl shadow-sm border overflow-hidden">
+                <div id="wasteList" class="divide-y divide-slate-100"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 bottom-nav z-40">
+        <div class="flex justify-around items-center py-2">
+            <button onclick="navigateTo('dashboard')" data-page="dashboard" class="nav-item active flex flex-col items-center gap-1 px-4 py-2 text-slate-400 active:text-red-600">
+                <i class="fas fa-chart-line text-xl"></i>
+                <span class="text-xs">Home</span>
+            </button>
+            <button onclick="navigateTo('pos')" data-page="pos" class="nav-item flex flex-col items-center gap-1 px-4 py-2 text-slate-400 active:text-red-600">
+                <i class="fas fa-cash-register text-xl"></i>
+                <span class="text-xs">Cassa</span>
+            </button>
+            <button onclick="navigateTo('inventory')" data-page="inventory" class="nav-item flex flex-col items-center gap-1 px-4 py-2 text-slate-400 active:text-red-600">
+                <i class="fas fa-warehouse text-xl"></i>
+                <span class="text-xs">Stock</span>
+            </button>
+            <button onclick="navigateTo('products')" data-page="products" class="nav-item flex flex-col items-center gap-1 px-4 py-2 text-slate-400 active:text-red-600">
+                <i class="fas fa-box-open text-xl"></i>
+                <span class="text-xs">Prodotti</span>
+            </button>
+        </div>
+    </nav>
+</div>
+
+<!-- Quantity Modal -->
+<div id="qtyModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-sm p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-bold">Quantità</h3>
+            <button onclick="closeQtyModal()" class="text-slate-400"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        <div class="text-center mb-6">
+            <p class="text-sm text-slate-500 mb-1" id="qtyProductName">Prodotto</p>
+            <p class="text-3xl font-bold text-red-600" id="qtyDisplay">1.0</p>
+            <p class="text-sm text-slate-400" id="qtyUnit">kg</p>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-4">
+            <button onclick="appendQty('1')" class="numpad-btn bg-slate-100 rounded-xl font-semibold touch-feedback">1</button>
+            <button onclick="appendQty('2')" class="numpad-btn bg-slate-100 rounded-xl font-semibold touch-feedback">2</button>
+            <button onclick="appendQty('3')" class="numpad-btn bg-slate-100 rounded-xl font-semibold touch-feedback">3</button>
+            <button onclick="appendQty('4')" class="numpad-btn bg-slate-100 rounded-xl font-semibold touch-feedback">4</button>
+            <button onclick="appendQty('5')" class="numpad-btn bg-slate-100 rounded-xl font-semibold touch-feedback">5</button>
+            <button onclick="appendQty('6')" class="numpad-btn bg-slate-100 rounded-xl font-semibold touch-feedback">6</button>
+            <button onclick="appendQty('7')" class="numpad-btn bg-slate-100 rounded-xl font-semibold touch-feedback">7</button>
+            <button onclick="appendQty('8')" class="numpad-btn bg-slate-100 rounded-xl font-semibold touch-feedback">8</button>
+            <button onclick="appendQty('9')" class="numpad-btn bg-slate-100 rounded-xl font-semibold touch-feedback">9</button>
+            <button onclick="appendQty('.')" class="numpad-btn bg-slate-200 rounded-xl font-semibold touch-feedback">.</button>
+            <button onclick="appendQty('0')" class="numpad-btn bg-slate-100 rounded-xl font-semibold touch-feedback">0</button>
+            <button onclick="clearQty()" class="numpad-btn bg-amber-100 text-amber-700 rounded-xl font-semibold touch-feedback"><i class="fas fa-backspace"></i></button>
+        </div>
+        <button onclick="confirmQty()" class="w-full bg-red-600 text-white py-4 rounded-xl font-bold text-lg touch-feedback">
+            Aggiungi
+        </button>
+    </div>
+</div>
+
+<!-- Product Modal -->
+<div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-sm p-6 my-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-bold">Nuovo Prodotto</h3>
+            <button onclick="closeProductModal()" class="text-slate-400"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        <form id="productForm" class="space-y-4">
+            <input type="text" id="prodName" placeholder="Nome prodotto" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500">
+            <select id="prodCategory" class="w-full px-4 py-3 border border-slate-200 rounded-xl">
+                <option value="beef">Manzo</option>
+                <option value="pork">Maiale</option>
+                <option value="poultry">Pollame</option>
+                <option value="lamb">Agnello</option>
+                <option value="processed">Lavorati</option>
+            </select>
+            <div class="grid grid-cols-2 gap-3">
+                <input type="number" step="0.01" id="prodPrice" placeholder="Prezzo €" required class="w-full px-4 py-3 border border-slate-200 rounded-xl">
+                <input type="number" step="0.01" id="prodCost" placeholder="Costo €" required class="w-full px-4 py-3 border border-slate-200 rounded-xl">
+            </div>
+            <input type="number" step="0.1" id="prodStock" placeholder="Stock iniziale" required class="w-full px-4 py-3 border border-slate-200 rounded-xl">
+            <input type="date" id="prodExpiry" required class="w-full px-4 py-3 border border-slate-200 rounded-xl">
+            <div class="flex gap-3 pt-4">
+                <button type="button" onclick="closeProductModal()" class="flex-1 px-4 py-3 border border-slate-300 rounded-xl hover:bg-slate-50">Annulla</button>
+                <button type="submit" class="flex-1 px-4 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 font-medium touch-feedback">Salva</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// ==========================================
+// MACELLAIO PRO MOBILE - PWA VERSION
+// ==========================================
+
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+    const swCode = `
+        self.addEventListener('install', e => {
+            e.waitUntil(
+                caches.open('macellaio-v3').then(cache => {
+                    return cache.addAll(['/', 'index.html']);
+                })
+            );
+            self.skipWaiting();
+        });
+        self.addEventListener('fetch', e => {
+            e.respondWith(
+                caches.match(e.request).then(response => {
+                    return response || fetch(e.request).then(fetchResponse => {
+                        return caches.open('macellaio-v3').then(cache => {
+                            cache.put(e.request, fetchResponse.clone());
+                            return fetchResponse;
+                        });
+                    });
+                })
+            );
+        });
+        self.addEventListener('sync', e => {
+            if (e.tag === 'sync-sales') {
+                // Background sync logic
+            }
+        });
+    `;
+    const blob = new Blob([swCode], { type: 'application/javascript' });
+    const swUrl = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(swUrl).catch(err => console.log('SW registration failed'));
+}
+
+// Database
+const DB = {
+    db: null,
+    async init() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open('MacellaioProDB_Mobile', 1);
+            request.onerror = () => reject(request.error);
+            request.onsuccess = () => { this.db = request.result; resolve(); };
+            request.onupgradeneeded = (e) => {
+                const db = e.target.result;
+                db.createObjectStore('products', { keyPath: 'id' });
+                db.createObjectStore('sales', { keyPath: 'id' });
+                db.createObjectStore('waste', { keyPath: 'id' });
+            };
+        });
+    },
+    async getAll(store) {
+        return new Promise((resolve, reject) => {
+            const tx = this.db.transaction(store, 'readonly');
+            const req = tx.objectStore(store).getAll();
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = () => reject(req.error);
+        });
+    },
+    async put(store, data) {
+        return new Promise((resolve, reject) => {
+            const tx = this.db.transaction(store, 'readwrite');
+            const req = tx.objectStore(store).put(data);
+            req.onsuccess = () => resolve();
+            req.onerror = () => reject(req.error);
+        });
+    },
+    async delete(store, id) {
+        return new Promise((resolve, reject) => {
+            const tx = this.db.transaction(store, 'readwrite');
+            const req = tx.objectStore(store).delete(id);
+            req.onsuccess = () => resolve();
+            req.onerror = () => reject(req.error);
+        });
+    }
+};
+
+// State
+const State = {
+    products: [],
+    sales: [],
+    waste: [],
+    cart: [],
+    filter: 'all',
+    tempQty: { id: null, val: '1', name: '', unit: '' }
+};
+
+const CATEGORIES = { beef: 'Manzo', pork: 'Maiale', poultry: 'Pollame', lamb: 'Agnello', processed: 'Lavorati' };
+
+// Initialize
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const shopName = document.getElementById('shopNameInput').value;
+    
+    // Haptic feedback
+    if (navigator.vibrate) navigator.vibrate(50);
+    
+    await DB.init();
+    
+    State.products = await DB.getAll('products');
+    if (State.products.length === 0) {
+        State.products = [
+            { id: Date.now(), name: "Bistecca di Manzo", category: "beef", price: 28.50, cost: 18.00, stock: 12.5, unit: "kg", expiry: futureDate(7), sales: 45 },
+            { id: Date.now()+1, name: "Macinato di Manzo", category: "beef", price: 12.90, cost: 8.50, stock: 8.2, unit: "kg", expiry: futureDate(5), sales: 128 },
+            { id: Date.now()+2, name: "Costolette di Maiale", category: "pork", price: 14.50, cost: 9.00, stock: 6.0, unit: "kg", expiry: futureDate(6), sales: 67 },
+            { id: Date.now()+3, name: "Petto di Pollo", category: "poultry", price: 11.90, cost: 7.20, stock: 15.3, unit: "kg", expiry: futureDate(4), sales: 95 },
+            { id: Date.now()+4, name: "Salsiccia Fresca", category: "processed", price: 8.90, cost: 4.50, stock: 45, unit: "pz", expiry: futureDate(12), sales: 89 }
+        ];
+        for (const p of State.products) await DB.put('products', p);
+    }
+    
+    State.sales = await DB.getAll('sales');
+    State.waste = await DB.getAll('waste');
+    
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('mainApp').classList.remove('hidden');
+    
+    initDashboard();
+    renderPOS();
+    renderInventory();
+    renderProducts();
+    renderWaste();
+    updateDate();
+    setupPullToRefresh();
+});
+
+// Navigation
+function navigateTo(page) {
+    document.querySelectorAll('section.page').forEach(s => s.classList.remove('active'));
+    document.getElementById(`page-${page}`).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => {
+        n.classList.remove('active', 'text-red-600');
+        n.classList.add('text-slate-400');
+        if (n.dataset.page === page) {
+            n.classList.add('active', 'text-red-600');
+            n.classList.remove('text-slate-400');
+        }
+    });
+    
+    // Collapse cart sheet when navigating
+    if (page !== 'pos') {
+        document.getElementById('cartSheet').classList.remove('collapsed');
+    } else {
+        document.getElementById('cartSheet').classList.add('collapsed');
+    }
+    
+    if (page === 'dashboard') updateStats();
+    window.scrollTo(0, 0);
+}
+
+// Dashboard
+function initDashboard() {
+    updateStats();
+    renderCharts();
+}
+
+function updateStats() {
+    const today = new Date().toISOString().split('T')[0];
+    const todaySales = State.sales.filter(s => s.date === today);
+    const total = todaySales.reduce((sum, s) => sum + s.total, 0);
+    
+    document.getElementById('todaySales').textContent = formatMoney(total);
+    document.getElementById('todayOrders').textContent = todaySales.length;
+    
+    const todayWaste = State.waste.filter(w => w.date === today).reduce((sum, w) => sum + w.value, 0);
+    document.getElementById('todayWaste').textContent = formatMoney(todayWaste);
+    
+    const lowStock = State.products.filter(p => p.stock <= 2).length;
+    document.getElementById('lowStockCount').textContent = lowStock;
+}
+
+function renderCharts() {
+    const ctx = document.getElementById('salesChart');
+    if (!ctx) return;
+    
+    const days = [], data = [];
+    for (let i = 6; i >= 0; i--) {
+        const d = new Date(Date.now() - i * 86400000);
+        days.push(d.toLocaleDateString('it-IT', { weekday: 'short' }));
+        const dateStr = d.toISOString().split('T')[0];
+        data.push(State.sales.filter(s => s.date === dateStr).reduce((sum, s) => sum + s.total, 0));
+    }
+    
+    new Chart(ctx, {
+        type: 'bar',
+        data: { 
+            labels: days, 
+            datasets: [{ 
+                data, 
+                backgroundColor: '#dc2626',
+                borderRadius: 6,
+                barThickness: 20
+            }] 
+        },
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: { display: false } },
+                y: { grid: { color: '#f1f5f9' }, beginAtZero: true }
+            }
+        }
+    });
+}
+
+// POS
+function renderPOS() {
+    const grid = document.getElementById('posGrid');
+    let products = State.products.filter(p => p.stock > 0);
+    if (State.filter !== 'all') products = products.filter(p => p.category === State.filter);
+    
+    grid.innerHTML = products.map(p => `
+        <div onclick="openQtyModal(${p.id})" class="touch-feedback bg-white rounded-2xl p-4 shadow-sm border border-slate-100 active:scale-95 transition-transform">
+            <div class="flex justify-between items-start mb-2">
+                <span class="text-xs font-semibold px-2 py-1 bg-slate-100 rounded-full text-slate-600">${CATEGORIES[p.category]}</span>
+                <span class="text-xs text-slate-400">${p.stock} ${p.unit}</span>
+            </div>
+            <h4 class="font-bold text-slate-900 mb-1 text-sm">${p.name}</h4>
+            <p class="text-red-600 font-bold text-lg">€${p.price.toFixed(2)}<span class="text-xs text-slate-400">/${p.unit}</span></p>
+        </div>
+    `).join('');
+}
+
+function filterPOS(cat) {
+    State.filter = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.remove('active', 'bg-red-600', 'text-white');
+        b.classList.add('bg-slate-100');
+    });
+    event.target.classList.add('active', 'bg-red-600', 'text-white');
+    event.target.classList.remove('bg-slate-100');
+    renderPOS();
+}
+
+// Quantity Modal
+function openQtyModal(id) {
+    const p = State.products.find(x => x.id === id);
+    State.tempQty = { id, val: '1', name: p.name, unit: p.unit };
+    document.getElementById('qtyProductName').textContent = p.name;
+    document.getElementById('qtyDisplay').textContent = '1.0';
+    document.getElementById('qtyUnit').textContent = p.unit;
+    document.getElementById('qtyModal').classList.remove('hidden');
+}
+
+function closeQtyModal() {
+    document.getElementById('qtyModal').classList.add('hidden');
+}
+
+function appendQty(num) {
+    if (State.tempQty.val === '0' && num !== '.') State.tempQty.val = num;
+    else if (num === '.' && State.tempQty.val.includes('.')) return;
+    else State.tempQty.val += num;
+    updateQtyDisplay();
+}
+
+function clearQty() {
+    State.tempQty.val = State.tempQty.val.slice(0, -1) || '0';
+    updateQtyDisplay();
+}
+
+function updateQtyDisplay() {
+    document.getElementById('qtyDisplay').textContent = State.tempQty.val;
+}
+
+function confirmQty() {
+    const qty = parseFloat(State.tempQty.val) || 1;
+    const p = State.products.find(x => x.id === State.tempQty.id);
+    
+    if (qty > p.stock) {
+        showToast('Stock insufficiente!', 'error');
+        closeQtyModal();
+        return;
+    }
+    
+    const existing = State.cart.find(i => i.id === State.tempQty.id);
+    if (existing) {
+        existing.qty += qty;
+    } else {
+        State.cart.push({ 
+            id: State.tempQty.id, 
+            name: p.name, 
+            price: p.price, 
+            unit: p.unit, 
+            qty: qty, 
+            max: p.stock 
+        });
+    }
+    
+    if (navigator.vibrate) navigator.vibrate(30);
+    closeQtyModal();
+    renderCart();
+    showToast('Aggiunto al carrello');
+}
+
+// Cart
+function renderCart() {
+    const container = document.getElementById('cartItems');
+    const sheet = document.getElementById('cartSheet');
+    
+    if (State.cart.length === 0) {
+        container.innerHTML = '<div class="text-center text-slate-400 py-8"><i class="fas fa-shopping-basket text-4xl mb-3 opacity-50"></i><p>Il carrello è vuoto</p></div>';
+        sheet.classList.add('collapsed');
+    } else {
+        container.innerHTML = State.cart.map((i, idx) => `
+            <div class="swipe-item flex justify-between items-center py-3 border-b border-slate-50 last:border-0" data-idx="${idx}">
+                <div class="flex-1">
+                    <div class="font-medium text-slate-900 text-sm">${i.name}</div>
+                    <div class="text-xs text-slate-500">€${i.price.toFixed(2)} × ${i.qty}${i.unit}</div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="updateCartQty(${idx}, -1)" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center touch-feedback">
+                        <i class="fas fa-minus text-xs"></i>
+                    </button>
+                    <span class="w-10 text-center font-semibold">${i.qty}</span>
+                    <button onclick="updateCartQty(${idx}, 1)" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center touch-feedback">
+                        <i class="fas fa-plus text-xs"></i>
+                    </button>
+                    <button onclick="removeFromCart(${idx})" class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center touch-feedback ml-2">
+                        <i class="fas fa-trash text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('');
+        
+        // Add swipe to delete
+        setupSwipeToDelete();
+    }
+    
+    const total = State.cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    document.getElementById('cartTotal').textContent = formatMoney(total);
+    document.getElementById('cartCount').textContent = State.cart.length;
+    document.getElementById('checkoutBtn').disabled = State.cart.length === 0;
+}
+
+function toggleCart() {
+    const sheet = document.getElementById('cartSheet');
+    const chevron = document.getElementById('cartChevron');
+    sheet.classList.toggle('collapsed');
+    chevron.classList.toggle('fa-chevron-up');
+    chevron.classList.toggle('fa-chevron-down');
+}
+
+function updateCartQty(idx, delta) {
+    const item = State.cart[idx];
+    const newQty = item.qty + delta;
+    if (newQty <= 0) removeFromCart(idx);
+    else if (newQty <= item.max) { 
+        item.qty = newQty; 
+        renderCart(); 
+    }
+}
+
+function removeFromCart(idx) {
+    State.cart.splice(idx, 1);
+    renderCart();
+    if (navigator.vibrate) navigator.vibrate(50);
+}
+
+function clearCart() {
+    if (State.cart.length === 0) return;
+    if (confirm('Svuotare il carrello?')) {
+        State.cart = [];
+        renderCart();
+    }
+}
+
+async function checkout() {
+    if (State.cart.length === 0) return;
+    
+    if (navigator.vibrate) navigator.vibrate([50, 100, 50]);
+    
+    const now = new Date();
+    const dateStr = now.toISOString().split('T')[0];
+    const timeStr = now.toTimeString().split(' ')[0];
+    
+    for (const item of State.cart) {
+        const sale = {
+            id: Date.now() + Math.random(),
+            productId: item.id,
+            productName: item.name,
+            quantity: item.qty,
+            unit: item.unit,
+            price: item.price,
+            total: item.price * item.qty,
+            date: dateStr,
+            time: timeStr,
+            synced: false
+        };
+        await DB.put('sales', sale);
+        State.sales.push(sale);
+        
+        const p = State.products.find(x => x.id === item.id);
+        if (p) {
+            p.stock -= item.qty;
+            p.sales = (p.sales || 0) + item.qty;
+            await DB.put('products', p);
+        }
+    }
+    
+    State.cart = [];
+    renderCart();
+    renderPOS();
+    renderInventory();
+    renderProducts();
+    updateStats();
+    showToast('Vendita completata! 🎉');
+    
+    // Expand cart sheet to show success
+    document.getElementById('cartSheet').classList.remove('collapsed');
+}
+
+// Inventory
+function renderInventory() {
+    const today = new Date();
+    let critical = 0, expiring = 0, ok = 0;
+    
+    document.getElementById('inventoryList').innerHTML = State.products.map(p => {
+        const days = Math.ceil((new Date(p.expiry) - today) / 86400000);
+        let statusColor, statusText, cls;
+        
+        if (p.stock <= 2) {
+            statusColor = 'red';
+            statusText = 'CRITICO';
+            cls = 'border-l-4 border-red-500 bg-red-50';
+            critical++;
+        } else if (days <= 2) {
+            statusColor = 'amber';
+            statusText = 'SCADENZA';
+            cls = 'border-l-4 border-amber-500 bg-amber-50';
+            expiring++;
+        } else {
+            statusColor = 'green';
+            statusText = 'OK';
+            cls = 'border-l-4 border-green-500';
+            ok++;
+        }
+        
+        return `
+            <div class="p-4 ${cls} flex justify-between items-center touch-feedback">
+                <div>
+                    <div class="font-medium text-slate-900">${p.name}</div>
+                    <div class="text-xs text-slate-500 mt-1">Scade: ${p.expiry}</div>
+                </div>
+                <div class="text-right">
+                    <div class="font-bold ${p.stock <= 2 ? 'text-red-600' : 'text-slate-900'}">${p.stock} ${p.unit}</div>
+                    <div class="text-xs text-${statusColor}-600 font-semibold">${statusText}</div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    document.getElementById('criticalStock').textContent = critical;
+    document.getElementById('expiringSoon').textContent = expiring;
+    document.getElementById('healthyStock').textContent = ok;
+}
+
+// Products
+function renderProducts() {
+    document.getElementById('productsList').innerHTML = State.products.map(p => {
+        const margin = ((p.price - p.cost) / p.price * 100).toFixed(1);
+        return `
+            <div class="bg-white rounded-2xl p-4 shadow-sm border touch-feedback flex justify-between items-center" onclick="deleteProductPrompt(${p.id})">
+                <div>
+                    <span class="text-xs font-semibold px-2 py-1 bg-slate-100 rounded-full text-slate-600 mb-2 inline-block">${CATEGORIES[p.category]}</span>
+                    <h3 class="font-bold text-slate-900">${p.name}</h3>
+                    <p class="text-sm text-slate-500">Stock: ${p.stock} ${p.unit}</p>
+                </div>
+                <div class="text-right">
+                    <p class="font-bold text-lg">€${p.price.toFixed(2)}</p>
+                    <p class="text-xs ${margin > 30 ? 'text-green-600' : margin > 20 ? 'text-amber-600' : 'text-red-600'}">${margin}% margine</p>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function deleteProductPrompt(id) {
+    if (confirm('Eliminare questo prodotto?')) deleteProduct(id);
+}
+
+function openQuickAdd() {
+    navigateTo('products');
+    setTimeout(openProductModal, 300);
+}
+
+function openProductModal() {
+    document.getElementById('productForm').reset();
+    document.getElementById('prodExpiry').valueAsDate = new Date(Date.now() + 7 * 86400000);
+    document.getElementById('productModal').classList.remove('hidden');
+}
+
+function closeProductModal() {
+    document.getElementById('productModal').classList.add('hidden');
+}
+
+document.getElementById('productForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const p = {
+        id: Date.now(),
+        name: document.getElementById('prodName').value,
+        category: document.getElementById('prodCategory').value,
+        price: parseFloat(document.getElementById('prodPrice').value),
+        cost: parseFloat(document.getElementById('prodCost').value),
+        stock: parseFloat(document.getElementById('prodStock').value),
+        unit: 'kg',
+        expiry: document.getElementById('prodExpiry').value,
+        sales: 0
+    };
+    await DB.put('products', p);
+    State.products.push(p);
+    closeProductModal();
+    renderProducts();
+    renderInventory();
+    renderPOS();
+    showToast('Prodotto aggiunto!');
+});
+
+async function deleteProduct(id) {
+    State.products = State.products.filter(p => p.id !== id);
+    await DB.delete('products', id);
+    renderProducts();
+    renderInventory();
+    renderPOS();
+    showToast('Prodotto eliminato');
+}
+
+// Waste
+function renderWaste() {
+    const list = document.getElementById('wasteList');
+    if (!list) return;
+    list.innerHTML = [...State.waste].reverse().slice(0, 20).map(w => {
+        const p = State.products.find(x => x.id === w.productId);
+        return `
+            <div class="p-4 flex justify-between items-center touch-feedback border-b border-slate-50 last:border-0">
+                <div>
+                    <div class="font-medium text-slate-900">${p?.name || 'Sconosciuto'}</div>
+                    <div class="text-xs text-slate-500">${w.date}</div>
+                </div>
+                <div class="text-red-600 font-bold">€${w.value.toFixed(2)}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+// Pull to Refresh
+function setupPullToRefresh() {
+    const posArea = document.getElementById('posScrollArea');
+    let startY = 0;
+    let refreshing = false;
+    
+    posArea.addEventListener('touchstart', e => {
+        if (posArea.scrollTop === 0) startY = e.touches[0].clientY;
+    }, { passive: true });
+    
+    posArea.addEventListener('touchmove', e => {
+        if (refreshing) return;
+        const y = e.touches[0].clientY;
+        const diff = y - startY;
+        if (diff > 80 && posArea.scrollTop === 0) {
+            refreshData();
+            refreshing = true;
+            setTimeout(() => refreshing = false, 1000);
+        }
+    }, { passive: true });
+}
+
+async function refreshData() {
+    showToast('Aggiornamento...');
+    await new Promise(r => setTimeout(r, 500));
+    renderPOS();
+    renderInventory();
+    showToast('Aggiornato!');
+}
+
+// Swipe to delete setup
+function setupSwipeToDelete() {
+    const items = document.querySelectorAll('.swipe-item');
+    items.forEach(item => {
+        let startX = 0;
+        item.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+        item.addEventListener('touchend', e => {
+            const endX = e.changedTouches[0].clientX;
+            if (startX - endX > 50) {
+                item.classList.add('swiped');
+                setTimeout(() => item.classList.remove('swiped'), 3000);
+            }
+        });
+    });
+}
+
+// Sync
+async function syncData() {
+    const icon = document.getElementById('syncIcon');
+    icon.classList.add('fa-spin');
+    
+    // Simulate sync
+    await new Promise(r => setTimeout(r, 1000));
+    
+    icon.classList.remove('fa-spin');
+    showToast('Dati sincronizzati!');
+    
+    // Request background sync if available
+    if ('serviceWorker' in navigator && 'sync' in ServiceWorkerRegistration.prototype) {
+        const registration = await navigator.serviceWorker.ready;
+        await registration.sync.register('sync-sales');
+    }
+}
+
+// Utilities
+function formatMoney(val) {
+    return '€' + (val || 0).toFixed(2).replace('.', ',');
+}
+
+function futureDate(days) {
+    return new Date(Date.now() + days * 86400000).toISOString().split('T')[0];
+}
+
+function updateDate() {
+    const el = document.getElementById('currentDate');
+    if (el) el.textContent = new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' });
+}
+
+function showToast(msg, type = 'success') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check' : 'fa-exclamation'} mr-2"></i>${msg}`;
+    container.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 2500);
+}
+
+// Online/Offline
+window.addEventListener('online', () => {
+    document.getElementById('networkStatus').classList.remove('hidden');
+    setTimeout(() => document.getElementById('networkStatus').classList.add('hidden'), 3000);
+});
+window.addEventListener('offline', () => {
+    showToast('Modalità offline attiva', 'error');
+});
+
+// Prevent double tap zoom
+let lastTouchEnd = 0;
+document.addEventListener('touchend', e => {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 300) e.preventDefault();
+    lastTouchEnd = now;
+}, false);
+</script>
+</body>
+</html>
