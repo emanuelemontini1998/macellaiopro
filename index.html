@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="MacellaioPro">
     <meta name="mobile-web-app-capable" content="yes">
-    <title>MacellaioPro Mobile</title>
+    <title>MacellaioPro</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -33,15 +33,6 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        .bottom-sheet {
-            transform: translateY(0);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            bottom: 0;
-        }
-        .bottom-sheet.collapsed {
-            transform: translateY(calc(100% - 140px));
-        }
-        
         .touch-feedback:active {
             transform: scale(0.95);
             transition: transform 0.1s;
@@ -62,7 +53,6 @@
             border-radius: 25px;
             z-index: 9999;
             animation: slideDown 0.3s;
-            backdrop-filter: blur(10px);
         }
         @keyframes slideDown { from { transform: translate(-50%, -100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
         
@@ -70,46 +60,21 @@
             min-height: 64px;
             font-size: 1.25rem;
         }
-        
-        /* FIX: Spazio extra per il bottom nav */
-        .safe-bottom {
-            padding-bottom: calc(100px + env(safe-area-inset-bottom));
-        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
 
 <div id="toastContainer"></div>
 
-<!-- Login -->
-<div id="loginScreen" class="fixed inset-0 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center z-50">
-    <div class="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-sm mx-4">
-        <div class="text-center mb-8">
-            <div class="w-24 h-24 bg-red-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-drumstick-bite text-5xl text-red-600"></i>
-            </div>
-            <h1 class="text-3xl font-bold">MacellaioPro</h1>
-            <p class="text-slate-500 mt-2">Mobile Edition v3.0</p>
-        </div>
-        <form id="loginForm" class="space-y-4">
-            <input type="text" id="shopNameInput" placeholder="Nome Negozio" required class="w-full px-5 py-4 rounded-xl border border-slate-200 focus:ring-2 focus:ring-red-500 text-lg">
-            <input type="password" id="passwordInput" value="admin123" placeholder="Password" class="w-full px-5 py-4 rounded-xl border border-slate-200 focus:ring-2 focus:ring-red-500 text-lg">
-            <button type="submit" class="w-full bg-red-600 text-white py-4 rounded-xl font-bold text-lg touch-feedback">Accedi</button>
-        </form>
-    </div>
-</div>
-
 <!-- Main App -->
-<div id="mainApp" class="hidden">
+<div id="mainApp">
     
     <!-- Dashboard -->
-    <section id="page-dashboard" class="page active p-4 safe-bottom">
+    <section id="page-dashboard" class="page active p-4 pb-24">
         <div class="max-w-lg mx-auto">
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h1 class="text-2xl font-bold text-slate-900">Cruscotto</h1>
-                    <p class="text-sm text-slate-500" id="currentDate"></p>
-                </div>
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-slate-900">Cruscotto</h1>
+                <p class="text-sm text-slate-500" id="currentDate"></p>
             </div>
             
             <div class="grid grid-cols-2 gap-4 mb-6">
@@ -134,12 +99,12 @@
                     <p class="text-slate-500 text-xs mb-1">Critico</p>
                     <p class="text-2xl font-bold" id="lowStockCount">0</p>
                 </div>
-                <div class="bg-white rounded-2xl p-4 shadow-sm border touch-feedback" onclick="exportData()">
-                    <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mb-3">
-                        <i class="fas fa-download text-purple-600"></i>
+                <div class="bg-white rounded-2xl p-4 shadow-sm border touch-feedback" onclick="navigateTo('waste')">
+                    <div class="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center mb-3">
+                        <i class="fas fa-exclamation-triangle text-amber-600"></i>
                     </div>
-                    <p class="text-slate-500 text-xs mb-1">Backup</p>
-                    <p class="text-lg font-bold text-purple-600">Esporta</p>
+                    <p class="text-slate-500 text-xs mb-1">Scarti</p>
+                    <p class="text-2xl font-bold" id="todayWaste">€0,00</p>
                 </div>
             </div>
 
@@ -147,12 +112,23 @@
                 <h3 class="font-bold mb-4 text-sm">Andamento Settimanale</h3>
                 <div class="h-48"><canvas id="salesChart"></canvas></div>
             </div>
+            
+            <div class="bg-white rounded-2xl p-4 shadow-sm border">
+                <h3 class="font-bold mb-4 text-sm">Azioni Rapide</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="openQuickAdd()" class="p-4 bg-red-50 rounded-xl text-red-600 font-medium touch-feedback">
+                        <i class="fas fa-plus mb-2 block text-xl"></i>Nuovo Prodotto
+                    </button>
+                    <button onclick="navigateTo('pos')" class="p-4 bg-green-50 rounded-xl text-green-600 font-medium touch-feedback">
+                        <i class="fas fa-cash-register mb-2 block text-xl"></i>Apri Cassa
+                    </button>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- POS - FIX: Layout ridisegnato per evitare sovrapposizioni -->
+    <!-- POS -->
     <section id="page-pos" class="page h-screen flex flex-col bg-slate-50">
-        <!-- Header -->
         <div class="p-4 bg-white shadow-sm z-20">
             <div class="flex justify-between items-center mb-4">
                 <h1 class="text-xl font-bold">Cassa</h1>
@@ -167,15 +143,13 @@
             </div>
         </div>
         
-        <!-- Griglia Prodotti - FIX: padding-bottom aumentato -->
-        <div class="flex-1 overflow-y-auto p-4 pb-80" id="posScrollArea">
+        <div class="flex-1 overflow-y-auto p-4 pb-96" id="posScrollArea">
             <div id="posGrid" class="grid grid-cols-2 gap-3"></div>
         </div>
         
-        <!-- Carrello - FIX: Posizionamento fisso sopra la nav -->
-        <div id="cartSheet" class="fixed left-0 right-0 bg-white border-t shadow-2xl rounded-t-3xl z-30 bottom-16 transition-transform duration-300" style="max-height: 60vh;">
-            <div class="p-4 border-b border-slate-100 cursor-pointer" onclick="toggleCart()">
-                <div class="w-12 h-1 bg-slate-300 rounded-full mx-auto mb-3"></div>
+        <!-- Cart -->
+        <div id="cartSheet" class="fixed left-4 right-4 bottom-20 bg-white border shadow-2xl rounded-2xl z-40 transition-all duration-300 max-h-[70vh] flex flex-col">
+            <div class="p-4 border-b border-slate-100 cursor-pointer shrink-0" onclick="toggleCart()">
                 <div class="flex justify-between items-center">
                     <div>
                         <span class="text-sm text-slate-500">Totale</span>
@@ -187,13 +161,10 @@
                     </div>
                 </div>
             </div>
-            <div class="p-4 overflow-y-auto" style="max-height: 40vh;" id="cartItems">
-                <div class="text-center text-slate-400 py-8">
-                    <i class="fas fa-shopping-basket text-4xl mb-3 opacity-50"></i>
-                    <p>Il carrello è vuoto</p>
-                </div>
+            <div class="p-4 overflow-y-auto flex-1 hidden" id="cartItemsContainer">
+                <div id="cartItems"></div>
             </div>
-            <div class="p-4 border-t bg-white">
+            <div class="p-4 border-t bg-white shrink-0 hidden" id="cartFooter">
                 <button onclick="checkout()" id="checkoutBtn" disabled class="w-full bg-red-600 disabled:bg-slate-300 text-white py-4 rounded-xl font-bold text-lg disabled:cursor-not-allowed touch-feedback shadow-lg">
                     Completa Vendita
                 </button>
@@ -202,7 +173,7 @@
     </section>
 
     <!-- Inventory -->
-    <section id="page-inventory" class="page p-4 safe-bottom">
+    <section id="page-inventory" class="page p-4 pb-24">
         <div class="max-w-lg mx-auto">
             <h1 class="text-2xl font-bold mb-4">Magazzino</h1>
             <div class="grid grid-cols-3 gap-3 mb-6">
@@ -226,7 +197,7 @@
     </section>
 
     <!-- Products -->
-    <section id="page-products" class="page p-4 safe-bottom">
+    <section id="page-products" class="page p-4 pb-24">
         <div class="max-w-lg mx-auto">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold">Prodotti</h1>
@@ -239,7 +210,7 @@
     </section>
 
     <!-- Waste -->
-    <section id="page-waste" class="page p-4 safe-bottom">
+    <section id="page-waste" class="page p-4 pb-24">
         <div class="max-w-lg mx-auto">
             <h1 class="text-2xl font-bold mb-4">Registro Scarti</h1>
             <div class="bg-white rounded-2xl shadow-sm border overflow-hidden">
@@ -251,7 +222,7 @@
     <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-50 pb-safe">
         <div class="flex justify-around items-center py-2 pb-4">
-            <button onclick="navigateTo('dashboard')" data-page="dashboard" class="nav-item active flex flex-col items-center gap-1 px-4 py-2 text-slate-400">
+            <button onclick="navigateTo('dashboard')" data-page="dashboard" class="nav-item active flex flex-col items-center gap-1 px-4 py-2 text-red-600">
                 <i class="fas fa-chart-line text-xl"></i>
                 <span class="text-xs">Home</span>
             </button>
@@ -333,7 +304,7 @@
 
 <script>
 // ==========================================
-// MACELLAIO PRO MOBILE - VERSIONE CORRETTA
+// MACELLAIO PRO - VERSIONE PULITA
 // ==========================================
 
 const DB = {
@@ -389,11 +360,8 @@ const State = {
 
 const CATEGORIES = { beef: 'Manzo', pork: 'Maiale', poultry: 'Pollame', lamb: 'Agnello', processed: 'Lavorati' };
 
-// Initialize
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (navigator.vibrate) navigator.vibrate(50);
-    
+// Initialize - NO LOGIN
+(async function init() {
     await DB.init();
     
     State.products = await DB.getAll('products');
@@ -411,18 +379,15 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     State.sales = await DB.getAll('sales');
     State.waste = await DB.getAll('waste');
     
-    document.getElementById('loginScreen').classList.add('hidden');
-    document.getElementById('mainApp').classList.remove('hidden');
-    
     initDashboard();
     renderPOS();
     renderInventory();
     renderProducts();
     renderWaste();
     updateDate();
-});
+})();
 
-// Navigation - FIX: Gestione corretta del carrello
+// Navigation
 function navigateTo(page) {
     document.querySelectorAll('section.page').forEach(s => s.classList.remove('active'));
     document.getElementById(`page-${page}`).classList.add('active');
@@ -436,43 +401,46 @@ function navigateTo(page) {
         }
     });
     
-    // FIX: Reset carrello quando si esce dalla cassa
-    const cartSheet = document.getElementById('cartSheet');
+    // Handle cart visibility
     if (page === 'pos') {
-        if (State.cart.length === 0) {
-            collapseCart();
-        } else {
-            expandCart();
-        }
+        renderCart();
     } else {
-        cartSheet.style.transform = 'translateY(100%)';
+        hideCart();
     }
     
     if (page === 'dashboard') updateStats();
     window.scrollTo(0, 0);
 }
 
-function collapseCart() {
+function showCart() {
     const sheet = document.getElementById('cartSheet');
+    const items = document.getElementById('cartItemsContainer');
+    const footer = document.getElementById('cartFooter');
     const chevron = document.getElementById('cartChevron');
-    sheet.style.transform = 'translateY(calc(100% - 140px))';
-    chevron.style.transform = 'rotate(180deg)';
-    State.cartExpanded = false;
-}
-
-function expandCart() {
-    const sheet = document.getElementById('cartSheet');
-    const chevron = document.getElementById('cartChevron');
-    sheet.style.transform = 'translateY(0)';
+    
+    sheet.classList.remove('hidden');
+    items.classList.remove('hidden');
+    footer.classList.remove('hidden');
     chevron.style.transform = 'rotate(0deg)';
     State.cartExpanded = true;
 }
 
+function hideCart() {
+    const items = document.getElementById('cartItemsContainer');
+    const footer = document.getElementById('cartFooter');
+    const chevron = document.getElementById('cartChevron');
+    
+    items.classList.add('hidden');
+    footer.classList.add('hidden');
+    chevron.style.transform = 'rotate(180deg)';
+    State.cartExpanded = false;
+}
+
 function toggleCart() {
     if (State.cartExpanded) {
-        collapseCart();
+        hideCart();
     } else {
-        expandCart();
+        showCart();
     }
 }
 
@@ -489,6 +457,9 @@ function updateStats() {
     
     document.getElementById('todaySales').textContent = formatMoney(total);
     document.getElementById('todayOrders').textContent = todaySales.length;
+    
+    const todayWaste = State.waste.filter(w => w.date === today).reduce((sum, w) => sum + w.value, 0);
+    document.getElementById('todayWaste').textContent = formatMoney(todayWaste);
     
     const lowStock = State.products.filter(p => p.stock <= 2).length;
     document.getElementById('lowStockCount').textContent = lowStock;
@@ -539,7 +510,7 @@ function renderPOS() {
         <div onclick="openQtyModal(${p.id})" class="touch-feedback bg-white rounded-2xl p-4 shadow-sm border border-slate-100 active:scale-95 transition-transform">
             <div class="flex justify-between items-start mb-2">
                 <span class="text-xs font-semibold px-2 py-1 bg-slate-100 rounded-full text-slate-600">${CATEGORIES[p.category]}</span>
-                <span class="text-xs text-slate-400">${p.stock} ${p.unit}</span>
+                <span class="text-xs text-slate-400">${parseFloat(p.stock).toFixed(1)} ${p.unit}</span>
             </div>
             <h4 class="font-bold text-slate-900 mb-1 text-sm line-clamp-2">${p.name}</h4>
             <p class="text-red-600 font-bold text-lg">€${p.price.toFixed(2)}<span class="text-xs text-slate-400">/${p.unit}</span></p>
@@ -588,7 +559,7 @@ function confirmQty() {
     const qty = parseFloat(State.tempQty.val) || 1;
     const p = State.products.find(x => x.id === State.tempQty.id);
     
-    if (qty > p.stock) {
+    if (qty > parseFloat(p.stock)) {
         showToast('Stock insufficiente!', 'error');
         closeQtyModal();
         return;
@@ -596,7 +567,7 @@ function confirmQty() {
     
     const existing = State.cart.find(i => i.id === State.tempQty.id);
     if (existing) {
-        existing.qty += qty;
+        existing.qty = parseFloat(existing.qty) + qty;
     } else {
         State.cart.push({ 
             id: State.tempQty.id, 
@@ -604,14 +575,14 @@ function confirmQty() {
             price: p.price, 
             unit: p.unit, 
             qty: qty, 
-            max: p.stock 
+            max: parseFloat(p.stock)
         });
     }
     
     if (navigator.vibrate) navigator.vibrate(30);
     closeQtyModal();
     renderCart();
-    expandCart(); // FIX: Espandi carrello quando aggiungi
+    showCart();
     showToast('Aggiunto al carrello');
 }
 
@@ -621,7 +592,7 @@ function renderCart() {
     
     if (State.cart.length === 0) {
         container.innerHTML = '<div class="text-center text-slate-400 py-8"><i class="fas fa-shopping-basket text-4xl mb-3 opacity-50"></i><p>Il carrello è vuoto</p></div>';
-        collapseCart();
+        hideCart();
     } else {
         container.innerHTML = State.cart.map((i, idx) => `
             <div class="flex justify-between items-center py-3 border-b border-slate-50 last:border-0">
@@ -653,7 +624,7 @@ function renderCart() {
 
 function updateCartQty(idx, delta) {
     const item = State.cart[idx];
-    const newQty = item.qty + delta;
+    const newQty = parseFloat(item.qty) + delta;
     if (newQty <= 0) removeFromCart(idx);
     else if (newQty <= item.max) { 
         item.qty = newQty; 
@@ -701,8 +672,8 @@ async function checkout() {
         
         const p = State.products.find(x => x.id === item.id);
         if (p) {
-            p.stock -= item.qty;
-            p.sales = (p.sales || 0) + item.qty;
+            p.stock = parseFloat(p.stock) - parseFloat(item.qty);
+            p.sales = (p.sales || 0) + parseFloat(item.qty);
             await DB.put('products', p);
         }
     }
@@ -714,7 +685,7 @@ async function checkout() {
     renderProducts();
     updateStats();
     showToast('Vendita completata! 🎉');
-    collapseCart();
+    hideCart();
 }
 
 // Inventory
@@ -724,9 +695,10 @@ function renderInventory() {
     
     document.getElementById('inventoryList').innerHTML = State.products.map(p => {
         const days = Math.ceil((new Date(p.expiry) - today) / 86400000);
+        const stock = parseFloat(p.stock);
         let statusColor, statusText, cls;
         
-        if (p.stock <= 2) {
+        if (stock <= 2) {
             statusColor = 'red';
             statusText = 'CRITICO';
             cls = 'border-l-4 border-red-500 bg-red-50';
@@ -750,7 +722,7 @@ function renderInventory() {
                     <div class="text-xs text-slate-500 mt-1">Scade: ${p.expiry}</div>
                 </div>
                 <div class="text-right flex-shrink-0">
-                    <div class="font-bold ${p.stock <= 2 ? 'text-red-600' : 'text-slate-900'}">${p.stock} ${p.unit}</div>
+                    <div class="font-bold ${stock <= 2 ? 'text-red-600' : 'text-slate-900'}">${stock.toFixed(1)} ${p.unit}</div>
                     <div class="text-xs text-${statusColor}-600 font-semibold">${statusText}</div>
                 </div>
             </div>
@@ -771,16 +743,21 @@ function renderProducts() {
                 <div class="flex-1 min-w-0 mr-2">
                     <span class="text-xs font-semibold px-2 py-1 bg-slate-100 rounded-full text-slate-600 mb-1 inline-block">${CATEGORIES[p.category]}</span>
                     <h3 class="font-bold text-slate-900 truncate">${p.name}</h3>
-                    <p class="text-sm text-slate-500">Stock: ${p.stock} ${p.unit}</p>
+                    <p class="text-sm text-slate-500">Stock: ${parseFloat(p.stock).toFixed(1)} ${p.unit}</p>
                 </div>
                 <div class="text-right flex-shrink-0">
                     <p class="font-bold text-lg">€${p.price.toFixed(2)}</p>
                     <p class="text-xs ${margin > 30 ? 'text-green-600' : margin > 20 ? 'text-amber-600' : 'text-red-600'}">${margin}% margine</p>
-                    <button onclick="deleteProduct(${p.id})" class="mt-2 text-red-500 text-xs px-2 py-1 bg-red-50 rounded">Elimina</button>
+                    <button onclick="event.stopPropagation(); deleteProduct(${p.id})" class="mt-2 text-red-500 text-xs px-2 py-1 bg-red-50 rounded">Elimina</button>
                 </div>
             </div>
         `;
     }).join('');
+}
+
+function openQuickAdd() {
+    navigateTo('products');
+    setTimeout(openProductModal, 300);
 }
 
 function openProductModal() {
@@ -841,19 +818,6 @@ function renderWaste() {
             </div>
         `;
     }).join('');
-}
-
-// Export/Import
-async function exportData() {
-    const data = { products: State.products, sales: State.sales, waste: State.waste, exportDate: new Date().toISOString() };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `macellaiopro_backup_${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('Backup esportato!');
 }
 
 // Utilities
