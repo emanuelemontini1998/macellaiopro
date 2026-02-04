@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="MacellaioPro">
     <meta name="mobile-web-app-capable" content="yes">
-    <title>MacellaioPro</title>
+    <title>MacellaioPro Mobile</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -144,7 +144,7 @@
     <section id="page-sales-detail" class="page p-4 pb-24">
         <div class="max-w-lg mx-auto">
             <div class="flex items-center gap-3 mb-6">
-                <button onclick="navigateTo('dashboard')" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center">
+                <button onclick="navigateTo('dashboard')" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center touch-feedback">
                     <i class="fas fa-arrow-left"></i>
                 </button>
                 <h1 class="text-2xl font-bold">Dettaglio Vendite</h1>
@@ -169,7 +169,7 @@
     <section id="page-orders-detail" class="page p-4 pb-24">
         <div class="max-w-lg mx-auto">
             <div class="flex items-center gap-3 mb-6">
-                <button onclick="navigateTo('dashboard')" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center">
+                <button onclick="navigateTo('dashboard')" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center touch-feedback">
                     <i class="fas fa-arrow-left"></i>
                 </button>
                 <h1 class="text-2xl font-bold">Storico Ordini</h1>
@@ -213,7 +213,7 @@
         </div>
         
         <!-- Cart -->
-        <div id="cartSheet" class="fixed left-4 right-4 bottom-20 bg-white border shadow-2xl rounded-2xl z-40 transition-all duration-300 max-h-[70vh] flex flex-col">
+        <div id="cartSheet" class="fixed left-4 right-4 bottom-20 bg-white border shadow-2xl rounded-2xl z-30 transition-all duration-300 max-h-[70vh] flex flex-col">
             <div class="p-4 border-b border-slate-100 cursor-pointer shrink-0" onclick="toggleCart()">
                 <div class="flex justify-between items-center">
                     <div>
@@ -337,7 +337,7 @@
     </div>
 </div>
 
-<!-- Product Modal -->
+<!-- Product Modal (Nuovo con unità e label scadenza) -->
 <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-end justify-center p-0 overflow-y-auto">
     <div class="bg-white rounded-t-3xl w-full max-w-sm p-6 my-auto">
         <div class="flex justify-between items-center mb-6">
@@ -357,12 +357,99 @@
                 <input type="number" step="0.01" id="prodPrice" placeholder="Prezzo €" required class="w-full px-4 py-3 border border-slate-200 rounded-xl">
                 <input type="number" step="0.01" id="prodCost" placeholder="Costo €" required class="w-full px-4 py-3 border border-slate-200 rounded-xl">
             </div>
-            <input type="number" step="0.1" id="prodStock" placeholder="Stock iniziale" required class="w-full px-4 py-3 border border-slate-200 rounded-xl">
-            <input type="date" id="prodExpiry" required class="w-full px-4 py-3 border border-slate-200 rounded-xl">
+            <div class="grid grid-cols-2 gap-3">
+                <input type="number" step="0.1" id="prodStock" placeholder="Stock" required class="w-full px-4 py-3 border border-slate-200 rounded-xl">
+                <select id="prodUnit" class="w-full px-4 py-3 border border-slate-200 rounded-xl">
+                    <option value="kg">kg</option>
+                    <option value="pz">pz</option>
+                </select>
+            </div>
+            <div>
+                <label class="text-xs text-slate-500 block mb-1">Data scadenza</label>
+                <input type="date" id="prodExpiry" required class="w-full px-4 py-3 border border-slate-200 rounded-xl">
+            </div>
             <div class="flex gap-3 pt-4">
                 <button type="button" onclick="closeProductModal()" class="flex-1 px-4 py-3 border border-slate-300 rounded-xl">Annulla</button>
                 <button type="submit" class="flex-1 px-4 py-3 bg-red-600 text-white rounded-xl font-medium touch-feedback">Salva</button>
             </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Product Modal -->
+<div id="editProductModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-end justify-center p-0 overflow-y-auto">
+    <div class="bg-white rounded-t-3xl w-full max-w-sm p-6 my-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-bold">Modifica Prodotto</h3>
+            <button onclick="closeEditProductModal()" class="text-slate-400"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        <form id="editProductForm" class="space-y-4">
+            <input type="hidden" id="editProdId">
+            <input type="text" id="editProdName" placeholder="Nome prodotto" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500">
+            <select id="editProdCategory" class="w-full px-4 py-3 border border-slate-200 rounded-xl">
+                <option value="beef">Manzo</option>
+                <option value="pork">Maiale</option>
+                <option value="poultry">Pollame</option>
+                <option value="lamb">Agnello</option>
+                <option value="processed">Lavorati</option>
+            </select>
+            <div class="grid grid-cols-2 gap-3">
+                <input type="number" step="0.01" id="editProdPrice" placeholder="Prezzo €" required class="w-full px-4 py-3 border border-slate-200 rounded-xl">
+                <input type="number" step="0.01" id="editProdCost" placeholder="Costo €" required class="w-full px-4 py-3 border border-slate-200 rounded-xl">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <input type="number" step="0.1" id="editProdStock" placeholder="Stock" required class="w-full px-4 py-3 border border-slate-200 rounded-xl">
+                <select id="editProdUnit" class="w-full px-4 py-3 border border-slate-200 rounded-xl">
+                    <option value="kg">kg</option>
+                    <option value="pz">pz</option>
+                </select>
+            </div>
+            <div>
+                <label class="text-xs text-slate-500 block mb-1">Data scadenza</label>
+                <input type="date" id="editProdExpiry" required class="w-full px-4 py-3 border border-slate-200 rounded-xl">
+            </div>
+            <div class="flex gap-3 pt-4">
+                <button type="button" onclick="closeEditProductModal()" class="flex-1 px-4 py-3 border border-slate-300 rounded-xl">Annulla</button>
+                <button type="submit" class="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl font-medium touch-feedback">Salva Modifiche</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Sale Modal -->
+<div id="editSaleModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-end justify-center p-0">
+    <div class="bg-white rounded-t-3xl w-full max-w-sm p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-bold">Modifica Vendita</h3>
+            <button onclick="closeEditSaleModal()" class="text-slate-400"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        <form id="editSaleForm" onsubmit="event.preventDefault(); saveEditSale();" class="space-y-4">
+            <input type="hidden" id="editSaleId">
+            <div class="p-3 bg-slate-100 rounded-xl">
+                <span class="text-xs text-slate-500">Prodotto</span>
+                <p class="font-bold text-slate-900" id="editSaleProduct">Nome</p>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="text-xs text-slate-500 block mb-1">Data</label>
+                    <input type="date" id="editSaleDate" required class="w-full px-3 py-2 border border-slate-200 rounded-xl">
+                </div>
+                <div>
+                    <label class="text-xs text-slate-500 block mb-1">Ora</label>
+                    <input type="time" id="editSaleTime" required class="w-full px-3 py-2 border border-slate-200 rounded-xl">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="text-xs text-slate-500 block mb-1">Quantità</label>
+                    <input type="number" step="0.1" id="editSaleQty" required class="w-full px-3 py-2 border border-slate-200 rounded-xl">
+                </div>
+                <div>
+                    <label class="text-xs text-slate-500 block mb-1">Prezzo €</label>
+                    <input type="number" step="0.01" id="editSalePrice" required class="w-full px-3 py-2 border border-slate-200 rounded-xl">
+                </div>
+            </div>
+            <button type="submit" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-lg touch-feedback">Salva Modifiche</button>
         </form>
     </div>
 </div>
