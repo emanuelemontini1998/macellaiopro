@@ -33,10 +33,7 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        .touch-feedback:active {
-            transform: scale(0.95);
-            transition: transform 0.1s;
-        }
+        .touch-feedback:active { transform: scale(0.95); transition: transform 0.1s; }
         
         section.page { display: none; animation: fadeIn 0.2s; }
         section.page.active { display: block; }
@@ -56,10 +53,7 @@
         }
         @keyframes slideDown { from { transform: translate(-50%, -100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
         
-        .numpad-btn {
-            min-height: 64px;
-            font-size: 1.25rem;
-        }
+        .numpad-btn { min-height: 64px; font-size: 1.25rem; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -78,18 +72,18 @@
             </div>
             
             <div class="grid grid-cols-2 gap-4 mb-6">
-                <div class="bg-white rounded-2xl p-4 shadow-sm border touch-feedback" onclick="navigateTo('pos')">
+                <div class="bg-white rounded-2xl p-4 shadow-sm border touch-feedback" onclick="navigateTo('sales-detail')">
                     <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center mb-3">
                         <i class="fas fa-euro-sign text-green-600"></i>
                     </div>
                     <p class="text-slate-500 text-xs mb-1">Vendite Oggi</p>
                     <p class="text-2xl font-bold" id="todaySales">€0,00</p>
                 </div>
-                <div class="bg-white rounded-2xl p-4 shadow-sm border touch-feedback">
+                <div class="bg-white rounded-2xl p-4 shadow-sm border touch-feedback" onclick="navigateTo('orders-detail')">
                     <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mb-3">
                         <i class="fas fa-shopping-bag text-blue-600"></i>
                     </div>
-                    <p class="text-slate-500 text-xs mb-1">Ordini</p>
+                    <p class="text-slate-500 text-xs mb-1">Ordini Oggi</p>
                     <p class="text-2xl font-bold" id="todayOrders">0</p>
                 </div>
                 <div class="bg-white rounded-2xl p-4 shadow-sm border touch-feedback" onclick="navigateTo('inventory')">
@@ -113,7 +107,8 @@
                 <div class="h-48"><canvas id="salesChart"></canvas></div>
             </div>
             
-            <div class="bg-white rounded-2xl p-4 shadow-sm border">
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm border mb-6">
                 <h3 class="font-bold mb-4 text-sm">Azioni Rapide</h3>
                 <div class="grid grid-cols-2 gap-3">
                     <button onclick="openQuickAdd()" class="p-4 bg-red-50 rounded-xl text-red-600 font-medium touch-feedback">
@@ -122,10 +117,80 @@
                     <button onclick="navigateTo('pos')" class="p-4 bg-green-50 rounded-xl text-green-600 font-medium touch-feedback">
                         <i class="fas fa-cash-register mb-2 block text-xl"></i>Apri Cassa
                     </button>
+                    <button onclick="exportToCSV()" class="p-4 bg-blue-50 rounded-xl text-blue-600 font-medium touch-feedback">
+                        <i class="fas fa-file-csv mb-2 block text-xl"></i>Export CSV
+                    </button>
+                    <button onclick="showMargins()" class="p-4 bg-purple-50 rounded-xl text-purple-600 font-medium touch-feedback">
+                        <i class="fas fa-chart-pie mb-2 block text-xl"></i>Margini
+                    </button>
                 </div>
+            </div>
+
+            <!-- Search Products -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm border">
+                <h3 class="font-bold mb-3 text-sm">Cerca Prodotto</h3>
+                <div class="relative">
+                    <i class="fas fa-search absolute left-3 top-3 text-slate-400"></i>
+                    <input type="text" id="searchInput" placeholder="Nome prodotto..." 
+                        class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500"
+                        oninput="searchProducts(this.value)">
+                </div>
+                <div id="searchResults" class="mt-3 space-y-2 max-h-48 overflow-y-auto no-scrollbar"></div>
             </div>
         </div>
     </section>
+
+    <!-- Sales Detail -->
+    <section id="page-sales-detail" class="page p-4 pb-24">
+        <div class="max-w-lg mx-auto">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="navigateTo('dashboard')" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="text-2xl font-bold">Dettaglio Vendite</h1>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-4 shadow-sm border mb-4">
+                <div class="flex gap-2 mb-4">
+                    <button onclick="filterSales('today')" class="filter-sales active flex-1 py-2 px-3 bg-red-600 text-white rounded-xl text-sm font-medium">Oggi</button>
+                    <button onclick="filterSales('week')" class="filter-sales flex-1 py-2 px-3 bg-slate-100 rounded-xl text-sm font-medium">Settimana</button>
+                    <button onclick="filterSales('month')" class="filter-sales flex-1 py-2 px-3 bg-slate-100 rounded-xl text-sm font-medium">Mese</button>
+                </div>
+                <div class="text-center py-2 bg-slate-50 rounded-xl mb-4">
+                    <span class="text-sm text-slate-500">Totale: </span>
+                    <span class="text-xl font-bold text-green-600" id="salesDetailTotal">€0,00</span>
+                </div>
+                <div id="salesList" class="space-y-3 max-h-96 overflow-y-auto no-scrollbar"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Orders Detail -->
+    <section id="page-orders-detail" class="page p-4 pb-24">
+        <div class="max-w-lg mx-auto">
+            <div class="flex items-center gap-3 mb-6">
+                <button onclick="navigateTo('dashboard')" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="text-2xl font-bold">Storico Ordini</h1>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-4 shadow-sm border">
+                <div id="ordersList" class="space-y-3 max-h-[70vh] overflow-y-auto no-scrollbar"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Margins Modal -->
+    <div id="marginsModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-sm p-6 max-h-[80vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Analisi Margini</h3>
+                <button onclick="closeMarginsModal()" class="text-slate-400"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <div id="marginsContent"></div>
+        </div>
+    </div>
 
     <!-- POS -->
     <section id="page-pos" class="page h-screen flex flex-col bg-slate-50">
@@ -302,554 +367,6 @@
     </div>
 </div>
 
-<script>
-// ==========================================
-// MACELLAIO PRO - VERSIONE PULITA
-// ==========================================
-
-const DB = {
-    db: null,
-    async init() {
-        return new Promise((resolve, reject) => {
-            const request = indexedDB.open('MacellaioProDB', 1);
-            request.onerror = () => reject(request.error);
-            request.onsuccess = () => { this.db = request.result; resolve(); };
-            request.onupgradeneeded = (e) => {
-                const db = e.target.result;
-                db.createObjectStore('products', { keyPath: 'id' });
-                db.createObjectStore('sales', { keyPath: 'id' });
-                db.createObjectStore('waste', { keyPath: 'id' });
-            };
-        });
-    },
-    async getAll(store) {
-        return new Promise((resolve, reject) => {
-            const tx = this.db.transaction(store, 'readonly');
-            const req = tx.objectStore(store).getAll();
-            req.onsuccess = () => resolve(req.result);
-            req.onerror = () => reject(req.error);
-        });
-    },
-    async put(store, data) {
-        return new Promise((resolve, reject) => {
-            const tx = this.db.transaction(store, 'readwrite');
-            const req = tx.objectStore(store).put(data);
-            req.onsuccess = () => resolve();
-            req.onerror = () => reject(req.error);
-        });
-    },
-    async delete(store, id) {
-        return new Promise((resolve, reject) => {
-            const tx = this.db.transaction(store, 'readwrite');
-            const req = tx.objectStore(store).delete(id);
-            req.onsuccess = () => resolve();
-            req.onerror = () => reject(req.error);
-        });
-    }
-};
-
-const State = {
-    products: [],
-    sales: [],
-    waste: [],
-    cart: [],
-    filter: 'all',
-    tempQty: { id: null, val: '1', name: '', unit: '' },
-    cartExpanded: false
-};
-
-const CATEGORIES = { beef: 'Manzo', pork: 'Maiale', poultry: 'Pollame', lamb: 'Agnello', processed: 'Lavorati' };
-
-// Initialize - NO LOGIN
-(async function init() {
-    await DB.init();
-    
-    State.products = await DB.getAll('products');
-    if (State.products.length === 0) {
-        State.products = [
-            { id: Date.now(), name: "Bistecca di Manzo", category: "beef", price: 28.50, cost: 18.00, stock: 12.5, unit: "kg", expiry: futureDate(7), sales: 45 },
-            { id: Date.now()+1, name: "Macinato di Manzo", category: "beef", price: 12.90, cost: 8.50, stock: 8.2, unit: "kg", expiry: futureDate(5), sales: 128 },
-            { id: Date.now()+2, name: "Costolette di Maiale", category: "pork", price: 14.50, cost: 9.00, stock: 6.0, unit: "kg", expiry: futureDate(6), sales: 67 },
-            { id: Date.now()+3, name: "Petto di Pollo", category: "poultry", price: 11.90, cost: 7.20, stock: 15.3, unit: "kg", expiry: futureDate(4), sales: 95 },
-            { id: Date.now()+4, name: "Salsiccia Fresca", category: "processed", price: 8.90, cost: 4.50, stock: 45, unit: "pz", expiry: futureDate(12), sales: 89 }
-        ];
-        for (const p of State.products) await DB.put('products', p);
-    }
-    
-    State.sales = await DB.getAll('sales');
-    State.waste = await DB.getAll('waste');
-    
-    initDashboard();
-    renderPOS();
-    renderInventory();
-    renderProducts();
-    renderWaste();
-    updateDate();
-})();
-
-// Navigation
-function navigateTo(page) {
-    document.querySelectorAll('section.page').forEach(s => s.classList.remove('active'));
-    document.getElementById(`page-${page}`).classList.add('active');
-    
-    document.querySelectorAll('.nav-item').forEach(n => {
-        n.classList.remove('text-red-600');
-        n.classList.add('text-slate-400');
-        if (n.dataset.page === page) {
-            n.classList.add('text-red-600');
-            n.classList.remove('text-slate-400');
-        }
-    });
-    
-    // Handle cart visibility
-    if (page === 'pos') {
-        renderCart();
-    } else {
-        hideCart();
-    }
-    
-    if (page === 'dashboard') updateStats();
-    window.scrollTo(0, 0);
-}
-
-function showCart() {
-    const sheet = document.getElementById('cartSheet');
-    const items = document.getElementById('cartItemsContainer');
-    const footer = document.getElementById('cartFooter');
-    const chevron = document.getElementById('cartChevron');
-    
-    sheet.classList.remove('hidden');
-    items.classList.remove('hidden');
-    footer.classList.remove('hidden');
-    chevron.style.transform = 'rotate(0deg)';
-    State.cartExpanded = true;
-}
-
-function hideCart() {
-    const items = document.getElementById('cartItemsContainer');
-    const footer = document.getElementById('cartFooter');
-    const chevron = document.getElementById('cartChevron');
-    
-    items.classList.add('hidden');
-    footer.classList.add('hidden');
-    chevron.style.transform = 'rotate(180deg)';
-    State.cartExpanded = false;
-}
-
-function toggleCart() {
-    if (State.cartExpanded) {
-        hideCart();
-    } else {
-        showCart();
-    }
-}
-
-// Dashboard
-function initDashboard() {
-    updateStats();
-    renderCharts();
-}
-
-function updateStats() {
-    const today = new Date().toISOString().split('T')[0];
-    const todaySales = State.sales.filter(s => s.date === today);
-    const total = todaySales.reduce((sum, s) => sum + s.total, 0);
-    
-    document.getElementById('todaySales').textContent = formatMoney(total);
-    document.getElementById('todayOrders').textContent = todaySales.length;
-    
-    const todayWaste = State.waste.filter(w => w.date === today).reduce((sum, w) => sum + w.value, 0);
-    document.getElementById('todayWaste').textContent = formatMoney(todayWaste);
-    
-    const lowStock = State.products.filter(p => p.stock <= 2).length;
-    document.getElementById('lowStockCount').textContent = lowStock;
-}
-
-function renderCharts() {
-    const ctx = document.getElementById('salesChart');
-    if (!ctx) return;
-    
-    const days = [], data = [];
-    for (let i = 6; i >= 0; i--) {
-        const d = new Date(Date.now() - i * 86400000);
-        days.push(d.toLocaleDateString('it-IT', { weekday: 'short' }));
-        const dateStr = d.toISOString().split('T')[0];
-        data.push(State.sales.filter(s => s.date === dateStr).reduce((sum, s) => sum + s.total, 0));
-    }
-    
-    new Chart(ctx, {
-        type: 'bar',
-        data: { 
-            labels: days, 
-            datasets: [{ 
-                data, 
-                backgroundColor: '#dc2626',
-                borderRadius: 6,
-                barThickness: 20
-            }] 
-        },
-        options: { 
-            responsive: true, 
-            maintainAspectRatio: false, 
-            plugins: { legend: { display: false } },
-            scales: {
-                x: { grid: { display: false } },
-                y: { grid: { color: '#f1f5f9' }, beginAtZero: true }
-            }
-        }
-    });
-}
-
-// POS
-function renderPOS() {
-    const grid = document.getElementById('posGrid');
-    let products = State.products.filter(p => p.stock > 0);
-    if (State.filter !== 'all') products = products.filter(p => p.category === State.filter);
-    
-    grid.innerHTML = products.map(p => `
-        <div onclick="openQtyModal(${p.id})" class="touch-feedback bg-white rounded-2xl p-4 shadow-sm border border-slate-100 active:scale-95 transition-transform">
-            <div class="flex justify-between items-start mb-2">
-                <span class="text-xs font-semibold px-2 py-1 bg-slate-100 rounded-full text-slate-600">${CATEGORIES[p.category]}</span>
-                <span class="text-xs text-slate-400">${parseFloat(p.stock).toFixed(1)} ${p.unit}</span>
-            </div>
-            <h4 class="font-bold text-slate-900 mb-1 text-sm line-clamp-2">${p.name}</h4>
-            <p class="text-red-600 font-bold text-lg">€${p.price.toFixed(2)}<span class="text-xs text-slate-400">/${p.unit}</span></p>
-        </div>
-    `).join('');
-}
-
-function filterPOS(cat) {
-    State.filter = cat;
-    document.querySelectorAll('.filter-btn').forEach(b => {
-        b.classList.remove('active', 'bg-red-600', 'text-white');
-        b.classList.add('bg-slate-100');
-    });
-    event.target.classList.add('active', 'bg-red-600', 'text-white');
-    event.target.classList.remove('bg-slate-100');
-    renderPOS();
-}
-
-// Quantity Modal
-function openQtyModal(id) {
-    const p = State.products.find(x => x.id === id);
-    State.tempQty = { id, val: '1', name: p.name, unit: p.unit };
-    document.getElementById('qtyProductName').textContent = p.name;
-    document.getElementById('qtyDisplay').textContent = '1.0';
-    document.getElementById('qtyUnit').textContent = p.unit;
-    document.getElementById('qtyModal').classList.remove('hidden');
-}
-
-function closeQtyModal() {
-    document.getElementById('qtyModal').classList.add('hidden');
-}
-
-function appendQty(num) {
-    if (State.tempQty.val === '0' && num !== '.') State.tempQty.val = num;
-    else if (num === '.' && State.tempQty.val.includes('.')) return;
-    else State.tempQty.val += num;
-    document.getElementById('qtyDisplay').textContent = State.tempQty.val;
-}
-
-function clearQty() {
-    State.tempQty.val = State.tempQty.val.slice(0, -1) || '0';
-    document.getElementById('qtyDisplay').textContent = State.tempQty.val;
-}
-
-function confirmQty() {
-    const qty = parseFloat(State.tempQty.val) || 1;
-    const p = State.products.find(x => x.id === State.tempQty.id);
-    
-    if (qty > parseFloat(p.stock)) {
-        showToast('Stock insufficiente!', 'error');
-        closeQtyModal();
-        return;
-    }
-    
-    const existing = State.cart.find(i => i.id === State.tempQty.id);
-    if (existing) {
-        existing.qty = parseFloat(existing.qty) + qty;
-    } else {
-        State.cart.push({ 
-            id: State.tempQty.id, 
-            name: p.name, 
-            price: p.price, 
-            unit: p.unit, 
-            qty: qty, 
-            max: parseFloat(p.stock)
-        });
-    }
-    
-    if (navigator.vibrate) navigator.vibrate(30);
-    closeQtyModal();
-    renderCart();
-    showCart();
-    showToast('Aggiunto al carrello');
-}
-
-// Cart
-function renderCart() {
-    const container = document.getElementById('cartItems');
-    
-    if (State.cart.length === 0) {
-        container.innerHTML = '<div class="text-center text-slate-400 py-8"><i class="fas fa-shopping-basket text-4xl mb-3 opacity-50"></i><p>Il carrello è vuoto</p></div>';
-        hideCart();
-    } else {
-        container.innerHTML = State.cart.map((i, idx) => `
-            <div class="flex justify-between items-center py-3 border-b border-slate-50 last:border-0">
-                <div class="flex-1 min-w-0 mr-2">
-                    <div class="font-medium text-slate-900 text-sm truncate">${i.name}</div>
-                    <div class="text-xs text-slate-500">€${i.price.toFixed(2)} × ${i.qty}${i.unit}</div>
-                </div>
-                <div class="flex items-center gap-2 flex-shrink-0">
-                    <button onclick="updateCartQty(${idx}, -1)" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center touch-feedback">
-                        <i class="fas fa-minus text-xs"></i>
-                    </button>
-                    <span class="w-8 text-center font-semibold text-sm">${i.qty}</span>
-                    <button onclick="updateCartQty(${idx}, 1)" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center touch-feedback">
-                        <i class="fas fa-plus text-xs"></i>
-                    </button>
-                    <button onclick="removeFromCart(${idx})" class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center touch-feedback ml-1">
-                        <i class="fas fa-trash text-xs"></i>
-                    </button>
-                </div>
-            </div>
-        `).join('');
-    }
-    
-    const total = State.cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-    document.getElementById('cartTotal').textContent = formatMoney(total);
-    document.getElementById('cartCount').textContent = State.cart.length;
-    document.getElementById('checkoutBtn').disabled = State.cart.length === 0;
-}
-
-function updateCartQty(idx, delta) {
-    const item = State.cart[idx];
-    const newQty = parseFloat(item.qty) + delta;
-    if (newQty <= 0) removeFromCart(idx);
-    else if (newQty <= item.max) { 
-        item.qty = newQty; 
-        renderCart(); 
-    }
-}
-
-function removeFromCart(idx) {
-    State.cart.splice(idx, 1);
-    renderCart();
-    if (navigator.vibrate) navigator.vibrate(50);
-}
-
-function clearCart() {
-    if (State.cart.length === 0) return;
-    if (confirm('Svuotare il carrello?')) {
-        State.cart = [];
-        renderCart();
-    }
-}
-
-async function checkout() {
-    if (State.cart.length === 0) return;
-    
-    if (navigator.vibrate) navigator.vibrate([50, 100, 50]);
-    
-    const now = new Date();
-    const dateStr = now.toISOString().split('T')[0];
-    const timeStr = now.toTimeString().split(' ')[0];
-    
-    for (const item of State.cart) {
-        const sale = {
-            id: Date.now() + Math.random(),
-            productId: item.id,
-            productName: item.name,
-            quantity: item.qty,
-            unit: item.unit,
-            price: item.price,
-            total: item.price * item.qty,
-            date: dateStr,
-            time: timeStr
-        };
-        await DB.put('sales', sale);
-        State.sales.push(sale);
-        
-        const p = State.products.find(x => x.id === item.id);
-        if (p) {
-            p.stock = parseFloat(p.stock) - parseFloat(item.qty);
-            p.sales = (p.sales || 0) + parseFloat(item.qty);
-            await DB.put('products', p);
-        }
-    }
-    
-    State.cart = [];
-    renderCart();
-    renderPOS();
-    renderInventory();
-    renderProducts();
-    updateStats();
-    showToast('Vendita completata! 🎉');
-    hideCart();
-}
-
-// Inventory
-function renderInventory() {
-    const today = new Date();
-    let critical = 0, expiring = 0, ok = 0;
-    
-    document.getElementById('inventoryList').innerHTML = State.products.map(p => {
-        const days = Math.ceil((new Date(p.expiry) - today) / 86400000);
-        const stock = parseFloat(p.stock);
-        let statusColor, statusText, cls;
-        
-        if (stock <= 2) {
-            statusColor = 'red';
-            statusText = 'CRITICO';
-            cls = 'border-l-4 border-red-500 bg-red-50';
-            critical++;
-        } else if (days <= 2) {
-            statusColor = 'amber';
-            statusText = 'SCADENZA';
-            cls = 'border-l-4 border-amber-500 bg-amber-50';
-            expiring++;
-        } else {
-            statusColor = 'green';
-            statusText = 'OK';
-            cls = 'border-l-4 border-green-500';
-            ok++;
-        }
-        
-        return `
-            <div class="p-4 ${cls} flex justify-between items-center touch-feedback">
-                <div class="flex-1 min-w-0 mr-2">
-                    <div class="font-medium text-slate-900 truncate">${p.name}</div>
-                    <div class="text-xs text-slate-500 mt-1">Scade: ${p.expiry}</div>
-                </div>
-                <div class="text-right flex-shrink-0">
-                    <div class="font-bold ${stock <= 2 ? 'text-red-600' : 'text-slate-900'}">${stock.toFixed(1)} ${p.unit}</div>
-                    <div class="text-xs text-${statusColor}-600 font-semibold">${statusText}</div>
-                </div>
-            </div>
-        `;
-    }).join('');
-    
-    document.getElementById('criticalStock').textContent = critical;
-    document.getElementById('expiringSoon').textContent = expiring;
-    document.getElementById('healthyStock').textContent = ok;
-}
-
-// Products
-function renderProducts() {
-    document.getElementById('productsList').innerHTML = State.products.map(p => {
-        const margin = ((p.price - p.cost) / p.price * 100).toFixed(1);
-        return `
-            <div class="bg-white rounded-2xl p-4 shadow-sm border touch-feedback flex justify-between items-center">
-                <div class="flex-1 min-w-0 mr-2">
-                    <span class="text-xs font-semibold px-2 py-1 bg-slate-100 rounded-full text-slate-600 mb-1 inline-block">${CATEGORIES[p.category]}</span>
-                    <h3 class="font-bold text-slate-900 truncate">${p.name}</h3>
-                    <p class="text-sm text-slate-500">Stock: ${parseFloat(p.stock).toFixed(1)} ${p.unit}</p>
-                </div>
-                <div class="text-right flex-shrink-0">
-                    <p class="font-bold text-lg">€${p.price.toFixed(2)}</p>
-                    <p class="text-xs ${margin > 30 ? 'text-green-600' : margin > 20 ? 'text-amber-600' : 'text-red-600'}">${margin}% margine</p>
-                    <button onclick="event.stopPropagation(); deleteProduct(${p.id})" class="mt-2 text-red-500 text-xs px-2 py-1 bg-red-50 rounded">Elimina</button>
-                </div>
-            </div>
-        `;
-    }).join('');
-}
-
-function openQuickAdd() {
-    navigateTo('products');
-    setTimeout(openProductModal, 300);
-}
-
-function openProductModal() {
-    document.getElementById('productForm').reset();
-    document.getElementById('prodExpiry').valueAsDate = new Date(Date.now() + 7 * 86400000);
-    document.getElementById('productModal').classList.remove('hidden');
-}
-
-function closeProductModal() {
-    document.getElementById('productModal').classList.add('hidden');
-}
-
-document.getElementById('productForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const p = {
-        id: Date.now(),
-        name: document.getElementById('prodName').value,
-        category: document.getElementById('prodCategory').value,
-        price: parseFloat(document.getElementById('prodPrice').value),
-        cost: parseFloat(document.getElementById('prodCost').value),
-        stock: parseFloat(document.getElementById('prodStock').value),
-        unit: 'kg',
-        expiry: document.getElementById('prodExpiry').value,
-        sales: 0
-    };
-    await DB.put('products', p);
-    State.products.push(p);
-    closeProductModal();
-    renderProducts();
-    renderInventory();
-    renderPOS();
-    showToast('Prodotto aggiunto!');
-});
-
-async function deleteProduct(id) {
-    if (!confirm('Eliminare questo prodotto?')) return;
-    State.products = State.products.filter(p => p.id !== id);
-    await DB.delete('products', id);
-    renderProducts();
-    renderInventory();
-    renderPOS();
-    showToast('Prodotto eliminato');
-}
-
-// Waste
-function renderWaste() {
-    const list = document.getElementById('wasteList');
-    if (!list) return;
-    list.innerHTML = [...State.waste].reverse().slice(0, 20).map(w => {
-        const p = State.products.find(x => x.id === w.productId);
-        return `
-            <div class="p-4 flex justify-between items-center touch-feedback border-b border-slate-50 last:border-0">
-                <div>
-                    <div class="font-medium text-slate-900">${p?.name || 'Sconosciuto'}</div>
-                    <div class="text-xs text-slate-500">${w.date}</div>
-                </div>
-                <div class="text-red-600 font-bold">€${w.value.toFixed(2)}</div>
-            </div>
-        `;
-    }).join('');
-}
-
-// Utilities
-function formatMoney(val) {
-    return '€' + (val || 0).toFixed(2).replace('.', ',');
-}
-
-function futureDate(days) {
-    return new Date(Date.now() + days * 86400000).toISOString().split('T')[0];
-}
-
-function updateDate() {
-    const el = document.getElementById('currentDate');
-    if (el) el.textContent = new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' });
-}
-
-function showToast(msg, type = 'success') {
-    const container = document.getElementById('toastContainer');
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check' : 'fa-exclamation'} mr-2"></i>${msg}`;
-    container.appendChild(toast);
-    setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 2500);
-}
-
-// Prevent double tap zoom
-let lastTouchEnd = 0;
-document.addEventListener('touchend', e => {
-    const now = Date.now();
-    if (now - lastTouchEnd <= 300) e.preventDefault();
-    lastTouchEnd = now;
-}, false);
-</script>
+<script type="module" src="js/app.js"></script>
 </body>
 </html>
