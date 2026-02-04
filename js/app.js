@@ -51,6 +51,8 @@ window.clearCart = clearCart;
 window.checkout = checkout;
 window.openProductModal = openProductModal;
 window.closeProductModal = closeProductModal;
+window.openEditProductModal = openEditProductModal;
+window.closeEditProductModal = closeEditProductModal;
 window.deleteProduct = deleteProduct;
 window.openQuickAdd = openQuickAdd;
 window.filterSales = filterSales;
@@ -58,6 +60,9 @@ window.exportToCSV = exportToCSV;
 window.showMargins = showMargins;
 window.closeMarginsModal = closeMarginsModal;
 window.searchProducts = searchProducts;
+window.editSale = editSale;
+window.deleteSale = deleteSale;
+window.saveEditSale = saveEditSale;
 
 // Navigation
 function navigateTo(page) {
@@ -179,7 +184,7 @@ function renderCharts() {
     });
 }
 
-// Sales Detail
+// Sales Detail with Edit/Delete
 function renderSalesDetail(period) {
     let filteredSales = [];
     const today = new Date();
@@ -205,14 +210,22 @@ function renderSalesDetail(period) {
     }
     
     list.innerHTML = filteredSales.sort((a,b) => b.id - a.id).map(s => `
-        <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl">
-            <div>
+        <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl" data-sale-id="${s.id}">
+            <div class="flex-1 min-w-0 mr-2">
                 <div class="font-medium text-slate-900">${s.productName}</div>
                 <div class="text-xs text-slate-500">${s.date} ${s.time?.substring(0,5) || ''}</div>
             </div>
-            <div class="text-right">
+            <div class="text-right mr-3">
                 <div class="font-bold text-green-600">${formatMoney(s.total)}</div>
                 <div class="text-xs text-slate-500">${s.quantity}${s.unit}</div>
+            </div>
+            <div class="flex gap-1">
+                <button onclick="editSale(${s.id})" class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center touch-feedback">
+                    <i class="fas fa-pen text-xs"></i>
+                </button>
+                <button onclick="deleteSale(${s.id})" class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center touch-feedback">
+                    <i class="fas fa-trash text-xs"></i>
+                </button>
             </div>
         </div>
     `).join('');
@@ -228,6 +241,86 @@ function filterSales(period) {
     renderSalesDetail(period);
 }
 
+function editSale(saleId) {
+    const sale = State.sales.find(s => s.id === saleId);
+    if (!sale) return;
+    
+    const product = State.products.find(p => p.id === sale.productId);
+    
+    document.getElementById('editSaleId').value = sale.id;
+    document.getElementById('editSaleProduct').textContent = sale.productName;
+    document.getElementById('editSaleDate').value = sale.date;
+    document.getElementById('editSaleTime').value = sale.time?.substring(0,5) || '';
+    document.getElementById('editSaleQty').value = sale.quantity;
+    document.getElementById('editSalePrice').value = sale.price;
+    
+    document.getElementById('editSaleModal').classList.remove('hidden');
+}
+
+function closeEditSaleModal() {
+    document.getElementById('editSaleModal').classList.add('hidden');
+}
+
+async function saveEditSale() {
+    const saleId = parseFloat(document.getElementById('editSaleId').value);
+    const sale = State.sales.find(s => s.id === saleId);
+    if (!sale) return;
+    
+    const product = State.products.find(p => p.id === sale.productId);
+    const oldQty = sale.quantity;
+    const newQty = parseFloat(document.getElementById('editSaleQty').value);
+    const newPrice = parseFloat(document.getElementById('editSalePrice').value);
+    const newDate = document.getElementById('editSaleDate').value;
+    const newTime = document.getElementById('editSaleTime').value + ':00';
+    
+    // Aggiorna stock
+    const qtyDiff = oldQty - newQty;
+    product.stock = parseFloat(product.stock) + qtyDiff;
+    product.sales = (product.sales || 0) - oldQty + newQty;
+    
+    // Aggiorna vendita
+    sale.date = newDate;
+    sale.time = newTime;
+    sale.quantity = newQty;
+    sale.price = newPrice;
+    sale.total = newQty * newPrice;
+    
+    await DB.put('sales', sale);
+    await DB.put('products', product);
+    
+    closeEditSaleModal();
+    renderSalesDetail('today');
+    updateStats();
+    renderCharts();
+    showToast('Vendita modificata!');
+}
+
+async function deleteSale(saleId) {
+    if (!confirm('Eliminare questa vendita? Lo stock verrà ripristinato.')) return;
+    
+    const saleIndex = State.sales.findIndex(s => s.id === saleId);
+    if (saleIndex === -1) return;
+    
+    const sale = State.sales[saleIndex];
+    const product = State.products.find(p => p.id === sale.productId);
+    
+    // Ripristina stock
+    product.stock = parseFloat(product.stock) + sale.quantity;
+    product.sales = (product.sales || 0) - sale.quantity;
+    
+    await DB.put('products', product);
+    await DB.delete('sales', saleId);
+    
+    State.sales.splice(saleIndex, 1);
+    
+    renderSalesDetail('today');
+    updateStats();
+    renderPOS();
+    renderInventory();
+    renderCharts();
+    showToast('Vendita eliminata');
+}
+
 // Orders Detail
 function renderOrdersDetail() {
     const list = document.getElementById('ordersList');
@@ -236,7 +329,6 @@ function renderOrdersDetail() {
         return;
     }
     
-    // Group by time periods
     const grouped = State.sales.reduce((acc, s) => {
         if (!acc[s.date]) acc[s.date] = [];
         acc[s.date].push(s);
@@ -254,13 +346,21 @@ function renderOrdersDetail() {
                 <div class="space-y-2">
                     ${sales.sort((a,b) => b.id - a.id).map(s => `
                         <div class="flex justify-between items-center p-3 bg-slate-50 rounded-xl">
-                            <div>
+                            <div class="flex-1 min-w-0 mr-2">
                                 <div class="font-medium text-slate-900 text-sm">${s.productName}</div>
                                 <div class="text-xs text-slate-500">${s.time?.substring(0,5) || ''}</div>
                             </div>
-                            <div class="text-right">
+                            <div class="text-right mr-2">
                                 <div class="font-bold">${formatMoney(s.total)}</div>
                                 <div class="text-xs text-slate-500">${s.quantity}${s.unit} × €${s.price.toFixed(2)}</div>
+                            </div>
+                            <div class="flex gap-1">
+                                <button onclick="editSale(${s.id})" class="w-7 h-7 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center touch-feedback">
+                                    <i class="fas fa-pen text-xs"></i>
+                                </button>
+                                <button onclick="deleteSale(${s.id})" class="w-7 h-7 rounded-full bg-red-100 text-red-600 flex items-center justify-center touch-feedback">
+                                    <i class="fas fa-trash text-xs"></i>
+                                </button>
                             </div>
                         </div>
                     `).join('')}
@@ -614,7 +714,7 @@ function renderInventory() {
     document.getElementById('healthyStock').textContent = ok;
 }
 
-// Products
+// Products with Edit
 function renderProducts() {
     document.getElementById('productsList').innerHTML = State.products.map(p => {
         const margin = ((p.price - p.cost) / p.price * 100).toFixed(1);
@@ -628,7 +728,14 @@ function renderProducts() {
                 <div class="text-right flex-shrink-0">
                     <p class="font-bold text-lg">€${p.price.toFixed(2)}</p>
                     <p class="text-xs ${margin > 30 ? 'text-green-600' : margin > 20 ? 'text-amber-600' : 'text-red-600'}">${margin}% margine</p>
-                    <button onclick="event.stopPropagation(); deleteProduct(${p.id})" class="mt-2 text-red-500 text-xs px-2 py-1 bg-red-50 rounded">Elimina</button>
+                    <div class="flex gap-1 mt-2 justify-end">
+                        <button onclick="event.stopPropagation(); openEditProductModal(${p.id})" class="w-7 h-7 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center touch-feedback">
+                            <i class="fas fa-pen text-xs"></i>
+                        </button>
+                        <button onclick="event.stopPropagation(); deleteProduct(${p.id})" class="w-7 h-7 rounded-full bg-red-100 text-red-600 flex items-center justify-center touch-feedback">
+                            <i class="fas fa-trash text-xs"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
@@ -640,6 +747,7 @@ function openQuickAdd() {
     setTimeout(openProductModal, 300);
 }
 
+// New Product Modal
 function openProductModal() {
     document.getElementById('productForm').reset();
     document.getElementById('prodExpiry').valueAsDate = new Date(Date.now() + 7 * 86400000);
@@ -648,6 +756,27 @@ function openProductModal() {
 
 function closeProductModal() {
     document.getElementById('productModal').classList.add('hidden');
+}
+
+// Edit Product Modal
+function openEditProductModal(productId) {
+    const p = State.products.find(prod => prod.id === productId);
+    if (!p) return;
+    
+    document.getElementById('editProdId').value = p.id;
+    document.getElementById('editProdName').value = p.name;
+    document.getElementById('editProdCategory').value = p.category;
+    document.getElementById('editProdPrice').value = p.price;
+    document.getElementById('editProdCost').value = p.cost;
+    document.getElementById('editProdStock').value = p.stock;
+    document.getElementById('editProdUnit').value = p.unit || 'kg';
+    document.getElementById('editProdExpiry').value = p.expiry;
+    
+    document.getElementById('editProductModal').classList.remove('hidden');
+}
+
+function closeEditProductModal() {
+    document.getElementById('editProductModal').classList.add('hidden');
 }
 
 document.getElementById('productForm')?.addEventListener('submit', async (e) => {
@@ -659,7 +788,7 @@ document.getElementById('productForm')?.addEventListener('submit', async (e) => 
         price: parseFloat(document.getElementById('prodPrice').value),
         cost: parseFloat(document.getElementById('prodCost').value),
         stock: parseFloat(document.getElementById('prodStock').value),
-        unit: 'kg',
+        unit: document.getElementById('prodUnit').value,
         expiry: document.getElementById('prodExpiry').value,
         sales: 0
     };
@@ -670,6 +799,28 @@ document.getElementById('productForm')?.addEventListener('submit', async (e) => 
     renderInventory();
     renderPOS();
     showToast('Prodotto aggiunto!');
+});
+
+document.getElementById('editProductForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = parseFloat(document.getElementById('editProdId').value);
+    const p = State.products.find(prod => prod.id === id);
+    if (!p) return;
+    
+    p.name = document.getElementById('editProdName').value;
+    p.category = document.getElementById('editProdCategory').value;
+    p.price = parseFloat(document.getElementById('editProdPrice').value);
+    p.cost = parseFloat(document.getElementById('editProdCost').value);
+    p.stock = parseFloat(document.getElementById('editProdStock').value);
+    p.unit = document.getElementById('editProdUnit').value;
+    p.expiry = document.getElementById('editProdExpiry').value;
+    
+    await DB.put('products', p);
+    closeEditProductModal();
+    renderProducts();
+    renderInventory();
+    renderPOS();
+    showToast('Prodotto modificato!');
 });
 
 async function deleteProduct(id) {
